@@ -24,6 +24,6 @@ public class CameraController : MonoBehaviour
       h.follow = false;
     }
 
-    transform.LookAt(target.transform);
+    transform.LookAt(target.transform.position + (Vector3.up * 1.5f));
   }
 }

@@ -25,6 +25,10 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
         animator.SetBool("running", true);
         camHook.follow = true;
+      } else if(im.v < -0.1f) {
+        transform.Translate(Vector3.forward * -speed * Time.deltaTime);
+        animator.SetBool("running", true);
+        camHook.follow = true;
       } else {
         animator.SetBool("running", false);
       }
