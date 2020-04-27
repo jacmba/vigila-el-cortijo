@@ -6,8 +6,6 @@ public class CarController : MonoBehaviour
 {
   public InputManager im;
   public List <Wheel> wheels;
-  public List <WheelCollider> throttleWheels;
-  public List <WheelCollider> steerWheels;
   public float strengthCoefficient = 20f;
   public float maxTurn = 20f;
   public float maxTorque = 80f;
@@ -25,12 +23,14 @@ public class CarController : MonoBehaviour
   // Update is called once per frame
   void FixedUpdate()
   {
-    foreach(WheelCollider wheel in throttleWheels) {
-      wheel.motorTorque = maxTorque * im.throttle;
-    }
-
-    foreach(WheelCollider wheel in steerWheels) {
-      wheel.steerAngle = maxTurn * im.steer;
+    foreach(Wheel wheel in wheels) {
+      WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
+      if(wheel.Transmision) {
+        w.motorTorque = maxTorque * im.throttle;
+      }
+      if(wheel.Direction) {
+        w.steerAngle = maxTurn * im.steer;
+      }
     }
 
     if(im.a)  {
@@ -40,12 +40,15 @@ public class CarController : MonoBehaviour
   }
 
   void Update() {
-    foreach(WheelCollider wheel in throttleWheels) {
+    foreach(Wheel wheel in wheels) {
       Vector3 pos = Vector3.zero;
       Quaternion rot = Quaternion.identity;
 
-      wheel.GetWorldPose(out pos, out rot);
-      wheel.transform.rotation = rot;
+      WheelCollider col = wheel.Object.GetComponent<WheelCollider>();
+      Transform vis = col.transform.GetChild(0);
+
+      col.GetWorldPose(out pos, out rot);
+      vis.rotation = rot;
     }
   }
 }

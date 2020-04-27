@@ -4,8 +4,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class Wheel {
-  public string name;
-  public bool direction;
-  public bool transmision;
+  public string Name;
+  public bool Direction;
+  public bool Transmision;
   public GameObject Object;
 }
