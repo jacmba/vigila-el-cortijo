@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(0, 1, 0);
+  // Update is called once per frame
+  void Update()
+  {
+    transform.Rotate(0, 1, 0);
+  }
+
+  /// <summary>
+  /// OnTriggerStay is called when the Collider other enters the trigger.
+  /// </summary>
+  /// <param name="other">The other Collider involved in this collision.</param>
+  void OnTriggerStay(Collider other)
+  {
+    if(other.gameObject.tag == "Player") {
+      ItemCollecter collecter = other.gameObject.GetComponent<ItemCollecter>();
+      if(collecter.IsCollecting()) {
+        Destroy(gameObject);
+      }
     }
+  }
 }

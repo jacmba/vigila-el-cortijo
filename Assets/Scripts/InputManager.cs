@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
   public float h;
   public float v;
   public bool a;
+  public bool b;
 
   // Update is called once per frame
   void Update()
@@ -20,5 +21,6 @@ public class InputManager : MonoBehaviour
       v = Input.GetAxis("Vertical");
       
       a = Input.GetButton("Fire1");
+      b = Input.GetButton("Fire2");
   }
 }
