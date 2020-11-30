@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
   void Start()
   {
       timer = 0f;
+      EventManager.carEnter += OnCarEnter;
   }
 
   // Update is called once per frame
@@ -49,5 +50,9 @@ public class GameController : MonoBehaviour
       default:
         break;
     }
+  }
+
+  void OnCarEnter() {
+    Debug.Log("sa subío en la seat terra");
   }
 }

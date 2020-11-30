@@ -21,6 +21,7 @@ public class InteractArea : MonoBehaviour
   void OnTriggerStay(Collider other) {
     if(other.gameObject.tag == "Player" && im.a) {
       gameController.DoAction(action);
+      EventManager.OnCarEnter();
     }
   }
 }
