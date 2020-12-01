@@ -35,7 +35,7 @@ public class CarController : MonoBehaviour
 
     if(im.a)  {
       body.velocity = Vector3.zero;
-      gameController.DoAction("EXIT_CAR");
+      EventManager.OnCarExit();
     }
   }
 

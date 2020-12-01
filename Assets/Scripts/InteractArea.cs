@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractArea : MonoBehaviour
 {
   public GameController gameController;
-  public string action;
+  public AreaAction action;
 
   private InputManager im;
 
@@ -20,8 +20,13 @@ public class InteractArea : MonoBehaviour
 
   void OnTriggerStay(Collider other) {
     if(other.gameObject.tag == "Player" && im.a) {
-      gameController.DoAction(action);
-      EventManager.OnCarEnter();
+      switch(action) {
+        case AreaAction.CAR_ENTER:
+          EventManager.OnCarEnter();
+          break;
+        default:
+          break;
+      }
     }
   }
 }

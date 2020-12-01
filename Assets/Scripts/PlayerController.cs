@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
       animator = GetComponent<Animator>();
       camHook = GetComponentInChildren<CameraHook>();
       collecter = GetComponent<ItemCollecter>();
+
+      EventManager.carEnter += OnCarEnter;
   }
 
   // Update is called once per frame
@@ -48,5 +50,9 @@ public class PlayerController : MonoBehaviour
       collecter.StartCollect();
       animator.SetTrigger("collect");
     }
+  }
+
+  void OnCarEnter() {
+    gameObject.SetActive(false);
   }
 }
