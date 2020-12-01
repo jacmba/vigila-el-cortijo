@@ -17,9 +17,11 @@ public class ItemController : MonoBehaviour
   /// <param name="other">The other Collider involved in this collision.</param>
   void OnTriggerStay(Collider other)
   {
-    if(other.gameObject.tag == "Player") {
+    if (other.gameObject.tag == "Player")
+    {
       ItemCollecter collecter = other.gameObject.GetComponent<ItemCollecter>();
-      if(collecter.IsCollecting()) {
+      if (collecter.IsCollecting())
+      {
         Destroy(gameObject);
       }
     }

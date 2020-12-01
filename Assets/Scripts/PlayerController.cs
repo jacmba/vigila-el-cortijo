@@ -14,29 +14,43 @@ public class PlayerController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-      animator = GetComponent<Animator>();
-      camHook = GetComponentInChildren<CameraHook>();
-      collecter = GetComponent<ItemCollecter>();
+    animator = GetComponent<Animator>();
+    camHook = GetComponentInChildren<CameraHook>();
+    collecter = GetComponent<ItemCollecter>();
 
-      EventManager.carEnter += OnCarEnter;
+    EventManager.carEnter += OnCarEnter;
+  }
+
+  /// <summary>
+  /// This function is called when the MonoBehaviour will be destroyed.
+  /// </summary>
+  void OnDestroy()
+  {
+    EventManager.carExit -= OnCarEnter;
   }
 
   // Update is called once per frame
   void FixedUpdate()
   {
-    if(im.v > 0.1f) {
+    if (im.v > 0.1f)
+    {
       transform.Translate(Vector3.forward * speed * Time.deltaTime);
       animator.SetBool("running", true);
       camHook.follow = true;
-    } else if(im.v < -0.1f) {
+    }
+    else if (im.v < -0.1f)
+    {
       transform.Translate(Vector3.forward * -speed * Time.deltaTime);
       animator.SetBool("running", true);
       camHook.follow = true;
-    } else {
+    }
+    else
+    {
       animator.SetBool("running", false);
     }
 
-    if(im.h > 0.1f || im.h < -0.1f) {
+    if (im.h > 0.1f || im.h < -0.1f)
+    {
       transform.Rotate(Vector3.up * rotationSpeed * im.h * Time.deltaTime);
     }
   }
@@ -46,13 +60,15 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   void Update()
   {
-    if(im.b && !collecter.IsCollecting()) {
+    if (im.b && !collecter.IsCollecting())
+    {
       collecter.StartCollect();
       animator.SetTrigger("collect");
     }
   }
 
-  void OnCarEnter() {
+  void OnCarEnter()
+  {
     gameObject.SetActive(false);
   }
 }

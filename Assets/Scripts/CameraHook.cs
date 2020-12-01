@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class CameraHook : MonoBehaviour
 {
-    public bool follow = false;
+  public bool follow = false;
 }

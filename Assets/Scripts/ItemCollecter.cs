@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class ItemCollecter : MonoBehaviour
 {
-    private bool collecting = false;
+  private bool collecting = false;
 
-    public void StartCollect() {
-      collecting = true;
-    }
+  public void StartCollect()
+  {
+    collecting = true;
+  }
 
-    public void StopCollect() {
-      collecting = false;
-    }
+  public void StopCollect()
+  {
+    collecting = false;
+  }
 
-    public bool IsCollecting() {
-      return collecting;
-    }
+  public bool IsCollecting()
+  {
+    return collecting;
+  }
 }

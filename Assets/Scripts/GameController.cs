@@ -4,61 +4,77 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject player;
+  public GameObject player;
 
-    public GameObject car;
+  public GameObject car;
 
-    public CameraController camera;
+  public CameraController camera;
 
-    public float MaxTimer = 3f;
+  public float MaxTimer = 3f;
 
-    private float timer;
+  private float timer;
 
-    // Start is called before the first frame update
-    void Start()
+  // Start is called before the first frame update
+  void Start()
+  {
+    timer = 0f;
+    EventManager.carEnter += OnCarEnter;
+    EventManager.carExit += OnCarExit;
+  }
+
+  /// <summary>
+  /// This function is called when the MonoBehaviour will be destroyed.
+  /// </summary>
+  void OnDestroy()
+  {
+    EventManager.carEnter -= OnCarEnter;
+    EventManager.carExit -= OnCarExit;
+  }
+
+  // Update is called once per frame
+  void Update()
+  {
+    if (timer > 0f)
     {
-        timer = 0f;
-        EventManager.carEnter += OnCarEnter;
+      timer -= Time.deltaTime;
     }
+  }
 
-    // Update is called once per frame
-    void Update()
+  public void DoAction(string action)
+  {
+    if (timer > 0)
     {
-        if (timer > 0f)
-        {
-            timer -= Time.deltaTime;
-        }
+      return;
     }
-
-    public void DoAction(string action)
+    timer = MaxTimer;
+    switch (action)
     {
-        if (timer > 0)
-        {
-            return;
-        }
-        timer = MaxTimer;
-        switch (action)
-        {
-            case "ENTER_CAR":
-                player.SetActive(false);
-                car.GetComponent<CarController>().enabled = true;
-                camera.target = car;
-                break;
-            case "EXIT_CAR":
-                Transform carEntry = car.transform.Find("Entry");
-                player.SetActive(true);
-                player.transform.position = carEntry.position;
-                car.GetComponent<CarController>().enabled = false;
-                camera.target = player;
-                break;
-            default:
-                break;
-        }
-    }
-
-    void OnCarEnter()
-    {
+      case "ENTER_CAR":
+        player.SetActive(false);
         car.GetComponent<CarController>().enabled = true;
         camera.target = car;
+        break;
+      case "EXIT_CAR":
+        Transform carEntry = car.transform.Find("Entry");
+        player.SetActive(true);
+        player.transform.position = carEntry.position;
+        car.GetComponent<CarController>().enabled = false;
+        camera.target = player;
+        break;
+      default:
+        break;
     }
+  }
+
+  void OnCarEnter()
+  {
+    car.GetComponent<CarController>().enabled = true;
+    camera.target = car;
+  }
+
+  void OnCarExit()
+  {
+    player.SetActive(true);
+    camera.target = player;
+  }
 }

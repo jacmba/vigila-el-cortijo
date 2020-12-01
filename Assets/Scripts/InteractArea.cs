@@ -15,12 +15,15 @@ public class InteractArea : MonoBehaviour
   /// </summary>
   void Start()
   {
-      im = gameController.gameObject.GetComponent<InputManager>();
+    im = gameController.gameObject.GetComponent<InputManager>();
   }
 
-  void OnTriggerStay(Collider other) {
-    if(other.gameObject.tag == "Player" && im.a) {
-      switch(action) {
+  void OnTriggerStay(Collider other)
+  {
+    if (other.gameObject.tag == "Player" && im.a)
+    {
+      switch (action)
+      {
         case AreaAction.CAR_ENTER:
           EventManager.OnCarEnter();
           break;

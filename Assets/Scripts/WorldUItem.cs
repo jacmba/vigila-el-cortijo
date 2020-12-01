@@ -9,12 +9,12 @@ public class WorldUItem : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-      cam = Camera.main.transform;
+    cam = Camera.main.transform;
   }
 
   // Update is called once per frame
   void Update()
   {
-      transform.LookAt(cam);
+    transform.LookAt(cam);
   }
 }

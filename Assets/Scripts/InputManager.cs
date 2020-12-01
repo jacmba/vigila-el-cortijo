@@ -14,13 +14,13 @@ public class InputManager : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-      throttle = Input.GetAxis("Vertical");
-      steer = Input.GetAxis("Horizontal");
+    throttle = Input.GetAxis("Vertical");
+    steer = Input.GetAxis("Horizontal");
 
-      h = Input.GetAxis("Horizontal");
-      v = Input.GetAxis("Vertical");
-      
-      a = Input.GetButton("Fire1");
-      b = Input.GetButton("Fire2");
+    h = Input.GetAxis("Horizontal");
+    v = Input.GetAxis("Vertical");
+
+    a = Input.GetButton("Fire1");
+    b = Input.GetButton("Fire2");
   }
 }
