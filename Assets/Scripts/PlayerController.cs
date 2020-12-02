@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   void OnDestroy()
   {
-    EventManager.carExit -= OnCarEnter;
+    EventManager.carEnter -= OnCarEnter;
   }
 
   // Update is called once per frame

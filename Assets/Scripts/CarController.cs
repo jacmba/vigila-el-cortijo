@@ -41,19 +41,18 @@ public class CarController : MonoBehaviour
       }
     }
 
+    // Exit the car
     if (im.a && canExit)
     {
       body.velocity = Vector3.zero;
-      EventManager.OnCarExit();
+      EventManager.OnCarExit(entry);
+      StartCoroutine(deferEnable());
       canExit = false;
       enabled = false;
     }
-    else
+    else if (!im.a)
     {
-      if (!im.a)
-      {
-        canExit = true;
-      }
+      canExit = true;
     }
   }
 
@@ -70,5 +69,11 @@ public class CarController : MonoBehaviour
       col.GetWorldPose(out pos, out rot);
       vis.rotation = rot;
     }
+  }
+
+  IEnumerator deferEnable()
+  {
+    yield return new WaitForSeconds(1);
+    entry.gameObject.SetActive(true);
   }
 }

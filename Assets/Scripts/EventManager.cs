@@ -5,15 +5,15 @@ public class EventManager
 {
   public static event Action carEnter;
 
-  public static event Action carExit;
+  public static event Action<Transform> carExit;
 
   public static void OnCarEnter()
   {
     carEnter?.Invoke();
   }
 
-  public static void OnCarExit()
+  public static void OnCarExit(Transform t)
   {
-    carExit?.Invoke();
+    carExit?.Invoke(t);
   }
 }

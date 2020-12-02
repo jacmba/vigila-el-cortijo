@@ -8,13 +8,15 @@ public class GameController : MonoBehaviour
 
   public GameObject car;
 
-  public CameraController camera;
+  public CameraController mainCamera;
 
   public float MaxTimer = 3f;
 
   private float timer;
 
-  // Start is called before the first frame update
+  /// <summary>
+  /// Start is called before the first frame update
+  /// </summary>
   void Start()
   {
     timer = 0f;
@@ -31,7 +33,9 @@ public class GameController : MonoBehaviour
     EventManager.carExit -= OnCarExit;
   }
 
-  // Update is called once per frame
+  /// <summary>
+  /// Update is called once per frame
+  /// </summary>
   void Update()
   {
     if (timer > 0f)
@@ -40,41 +44,16 @@ public class GameController : MonoBehaviour
     }
   }
 
-  public void DoAction(string action)
-  {
-    if (timer > 0)
-    {
-      return;
-    }
-    timer = MaxTimer;
-    switch (action)
-    {
-      case "ENTER_CAR":
-        player.SetActive(false);
-        car.GetComponent<CarController>().enabled = true;
-        camera.target = car;
-        break;
-      case "EXIT_CAR":
-        Transform carEntry = car.transform.Find("Entry");
-        player.SetActive(true);
-        player.transform.position = carEntry.position;
-        car.GetComponent<CarController>().enabled = false;
-        camera.target = player;
-        break;
-      default:
-        break;
-    }
-  }
-
   void OnCarEnter()
   {
     car.GetComponent<CarController>().enabled = true;
-    camera.target = car;
+    mainCamera.target = car;
   }
 
-  void OnCarExit()
+  void OnCarExit(Transform t)
   {
     player.SetActive(true);
-    camera.target = player;
+    player.transform.position = t.position;
+    mainCamera.target = player;
   }
 }

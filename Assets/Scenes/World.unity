@@ -5510,7 +5510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1133475635}
   car: {fileID: 7500288761779179776}
-  camera: {fileID: 963194229}
+  mainCamera: {fileID: 963194229}
   MaxTimer: 3
 --- !u!1 &913447798
 GameObject:
@@ -6378,7 +6378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 882616406}
-  action: ENTER_CAR
+  action: 0
 --- !u!4 &1730056874 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3962704781080875025, guid: fe707d62f1dd4b4d8bd96e59578d3801,

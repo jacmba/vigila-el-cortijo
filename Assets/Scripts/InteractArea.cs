@@ -26,6 +26,7 @@ public class InteractArea : MonoBehaviour
       {
         case AreaAction.CAR_ENTER:
           EventManager.OnCarEnter();
+          gameObject.SetActive(false);
           break;
         default:
           break;
