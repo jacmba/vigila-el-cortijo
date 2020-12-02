@@ -17,10 +17,13 @@ public class CameraController : MonoBehaviour
     Transform hook = target.transform.Find("CamHook");
     CameraHook h = hook.gameObject.GetComponent<CameraHook>();
     float dist = (hook.position - transform.position).magnitude;
-    if(h.follow && dist > 0f) {
+    if (h.follow && dist > 0f)
+    {
       Vector3 pos = Vector3.Lerp(transform.position, hook.position, Time.deltaTime);
       transform.position = pos;
-    } else {
+    }
+    else
+    {
       h.follow = false;
     }
 

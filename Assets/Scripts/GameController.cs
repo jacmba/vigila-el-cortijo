@@ -5,49 +5,55 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
   public GameObject player;
+
   public GameObject car;
-  public CameraController camera;
+
+  public CameraController mainCamera;
 
   public float MaxTimer = 3f;
 
   private float timer;
 
-  // Start is called before the first frame update
+  /// <summary>
+  /// Start is called before the first frame update
+  /// </summary>
   void Start()
   {
-      timer = 0f;
+    timer = 0f;
+    EventManager.carEnter += OnCarEnter;
+    EventManager.carExit += OnCarExit;
   }
 
-  // Update is called once per frame
+  /// <summary>
+  /// This function is called when the MonoBehaviour will be destroyed.
+  /// </summary>
+  void OnDestroy()
+  {
+    EventManager.carEnter -= OnCarEnter;
+    EventManager.carExit -= OnCarExit;
+  }
+
+  /// <summary>
+  /// Update is called once per frame
+  /// </summary>
   void Update()
   {
-      if(timer > 0f) {
-        timer -= Time.deltaTime;
-      }
+    if (timer > 0f)
+    {
+      timer -= Time.deltaTime;
+    }
   }
 
-  public void DoAction(string action) {
-    if(timer > 0) {
-      return;
-    }
-    timer = MaxTimer;
-    switch(action) {
-      case "ENTER_CAR":
-        player.SetActive(false);
-        car.GetComponent<CarController>().enabled = true;
-        camera.target = car;
-        break;
+  void OnCarEnter()
+  {
+    car.GetComponent<CarController>().enabled = true;
+    mainCamera.target = car;
+  }
 
-      case "EXIT_CAR":
-        Transform carEntry = car.transform.Find("Entry");
-        player.SetActive(true);
-        player.transform.position = carEntry.position;
-        car.GetComponent<CarController>().enabled = false;
-        camera.target = player;
-        break;
-
-      default:
-        break;
-    }
+  void OnCarExit(Transform t)
+  {
+    player.SetActive(true);
+    player.transform.position = t.position;
+    mainCamera.target = player;
   }
 }

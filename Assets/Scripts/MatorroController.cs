@@ -22,43 +22,54 @@ public class MatorroController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-      spawn = transform.GetChild(0);
-      hasCepa = false;
+    spawn = transform.GetChild(0);
+    hasCepa = false;
   }
 
   // Update is called once per frame
   void Update()
   {
-    if(Riego.Value > 0) {
+    if (Riego.Value > 0)
+    {
       DryTimer += Time.deltaTime;
-      if(DryTimer >= DryRatio) {
+      if (DryTimer >= DryRatio)
+      {
         DryTimer = 0f;
         Riego.Value--;
       }
-      if(Riego.Value >= 75 && !hasCepa) {
+      if (Riego.Value >= 75 && !hasCepa)
+      {
         CepaTimer += Time.deltaTime;
-        if(CepaTimer >= CepaRatio) {
+        if (CepaTimer >= CepaRatio)
+        {
           spawnCepa();
         }
       }
-    } else {
+    }
+    else
+    {
       DeathTimer += Time.deltaTime;
-      if(DeathTimer >= DeathRatio) {
+      if (DeathTimer >= DeathRatio)
+      {
         DeathTimer = 0f;
         Health.Value--;
       }
-      if(Health.Value <= 0) {
+      if (Health.Value <= 0)
+      {
         Destroy(gameObject);
       }
     }
 
-    if(hasCepa && cepa == null) {
+    if (hasCepa && cepa == null)
+    {
       vendimiar();
     }
   }
 
-  private void spawnCepa() {
-    if(hasCepa) {
+  private void spawnCepa()
+  {
+    if (hasCepa)
+    {
       return;
     }
     cepa = Instantiate(cepaPrefab, spawn);
@@ -72,7 +83,8 @@ public class MatorroController : MonoBehaviour
   /// <param name="other">The other Collider involved in this collision.</param>
   void OnTriggerEnter(Collider other)
   {
-    if(other.gameObject.tag == "Player" && !hasCepa) {
+    if (other.gameObject.tag == "Player" && !hasCepa)
+    {
       Gauges.SetActive(true);
     }
   }
@@ -83,12 +95,14 @@ public class MatorroController : MonoBehaviour
   /// <param name="other">The other Collider involved in this collision.</param>
   void OnTriggerExit(Collider other)
   {
-    if(other.gameObject.tag == "Player") {
+    if (other.gameObject.tag == "Player")
+    {
       Gauges.SetActive(false);
     }
   }
 
-  private void vendimiar() {
+  private void vendimiar()
+  {
     CepaTimer = 0f;
     hasCepa = false;
   }
