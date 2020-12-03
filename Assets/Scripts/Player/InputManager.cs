@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
   public bool a;
   public bool b;
 
+  public bool select;
+
   // Update is called once per frame
   void Update()
   {
@@ -20,7 +22,9 @@ public class InputManager : MonoBehaviour
     h = Input.GetAxis("Horizontal");
     v = Input.GetAxis("Vertical");
 
-    a = Input.GetButton("Fire1");
-    b = Input.GetButton("Fire2");
+    a = Input.GetButton("Action1");
+    b = Input.GetButton("Action2");
+
+    select = Input.GetButton("Select");
   }
 }
