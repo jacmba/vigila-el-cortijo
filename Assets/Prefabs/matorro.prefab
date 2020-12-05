@@ -97,11 +97,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cepaPrefab: {fileID: 587191927569195092, guid: 1c2d0b6b76b6b7109889665b6a1c1002,
     type: 3}
+  cepa: {fileID: 0}
   Riego: {fileID: 8770211650704264856}
   Health: {fileID: 838119290635178649}
   Gauges: {fileID: 8356150152763541549}
   DryTimer: 0
   DryRatio: 5
+  DeathTimer: 0
+  DeathRatio: 2
+  CepaTimer: 0
+  CepaRatio: 30
 --- !u!65 &8324041680597089038
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -175,6 +180,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -253,6 +259,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.5242524, g: 0.57784456, b: 0.5943396, a: 0.7058824}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -338,6 +345,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
