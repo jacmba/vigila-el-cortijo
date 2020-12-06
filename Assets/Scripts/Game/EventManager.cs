@@ -7,6 +7,8 @@ public class EventManager
 
   public static event Action<Transform> carExit;
 
+  public static event Action<InventoryItem> pickItem;
+
   public static void OnCarEnter()
   {
     carEnter?.Invoke();
@@ -15,5 +17,10 @@ public class EventManager
   public static void OnCarExit(Transform t)
   {
     carExit?.Invoke(t);
+  }
+
+  public static void OnPickItem(InventoryItem item)
+  {
+    pickItem?.Invoke(item);
   }
 }

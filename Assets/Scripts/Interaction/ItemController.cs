@@ -5,6 +5,8 @@ using UnityEngine;
 public class ItemController : MonoBehaviour
 {
 
+  public InventoryItem item;
+
   // Update is called once per frame
   void Update()
   {
