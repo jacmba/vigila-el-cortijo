@@ -7449,11 +7449,11 @@ MonoBehaviour:
     Object: {fileID: 1834064677}
   - Name: Rear Right
     Direction: 0
-    Transmision: 1
+    Transmision: 0
     Object: {fileID: 1896320546}
   - Name: Rear Left
     Direction: 0
-    Transmision: 1
+    Transmision: 0
     Object: {fileID: 1754709254}
   strengthCoefficient: 200000
   maxTurn: 20

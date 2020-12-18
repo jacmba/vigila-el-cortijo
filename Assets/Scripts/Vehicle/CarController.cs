@@ -15,6 +15,7 @@ public class CarController : MonoBehaviour
   private Rigidbody body;
   private Transform entry;
   private bool canExit;
+  private bool parked;
 
   void Start()
   {
@@ -23,6 +24,7 @@ public class CarController : MonoBehaviour
     gameController = im.gameObject.GetComponent<GameController>();
     entry = transform.Find("Entry");
     canExit = false;
+    parked = true;
   }
 
   // Update is called once per frame
