@@ -1,8 +1,20 @@
 fileFormatVersion: 2
 guid: f2455d7cbcbe64f7b85f0f262c1ccbbf
 ModelImporter:
-  serializedVersion: 19300
-  internalIDToNameTable: []
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: -3155117996260417625
+    second: Carretera|TramoAction
+  - first:
+      74: -1303479398294995864
+    second: Carretera|TramoAction.001
+  - first:
+      74: 5583179640856192107
+    second: Carretera|TramoAction.002
+  - first:
+      74: -4813182589388223240
+    second: Carretera|TramoAction.003
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -43,6 +55,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
