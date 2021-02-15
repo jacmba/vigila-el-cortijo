@@ -120,7 +120,7 @@ MonoBehaviour:
   item:
     type: 1
     name: Cepa
-    pickAmount: 0
+    pickAmount: 1
     maxAmount: 0
     icon: {fileID: 21300000, guid: 5b79ee7d921832fbe8b8270e64771b77, type: 3}
 --- !u!1001 &8865321453100366173
