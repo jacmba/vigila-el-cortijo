@@ -18,6 +18,25 @@ namespace Tests
     }
 
     [Test]
+    public void InventoryTestsCheckSimpleInventoryItemType()
+    {
+      InventoryItem item = new InventoryItem();
+      item.maxAmount = 100;
+      Assert.AreEqual(0, item.count());
+      item.increase(5);
+      Assert.AreEqual(5, item.count());
+    }
+
+    [Test]
+    public void InventoryTestsItemCountShouldNotOvershootMaxAmount()
+    {
+      InventoryItem item = new InventoryItem();
+      item.maxAmount = 1;
+      item.increase(10);
+      Assert.AreEqual(1, item.count());
+    }
+
+    [Test]
     public void InventoryTestsCheckAvailableSlots()
     {
       InventoryManager mgr = new InventoryManager();
@@ -30,7 +49,11 @@ namespace Tests
     public void InventoryTestsCheckSlotInsert()
     {
       InventoryManager mgr = new InventoryManager();
-      mgr.insert(ItemType.CEPA, 5);
+      InventoryItem i = new InventoryItem();
+      i.type = ItemType.CEPA;
+      i.pickAmount = 5;
+      i.maxAmount = 100;
+      mgr.insert(i);
       int avail = mgr.getAvailSlots();
       int cepas = mgr.count(ItemType.CEPA);
       Assert.AreEqual(9, avail);
@@ -50,8 +73,17 @@ namespace Tests
     {
       InventoryManager mgr = new InventoryManager();
       mgr.slots = 2;
-      mgr.insert(ItemType.CEPA, 2);
-      mgr.insert(ItemType.WINE, 5);
+
+      InventoryItem ci = new InventoryItem();
+      ci.maxAmount = 100;
+      ci.pickAmount = 2;
+      ci.type = ItemType.CEPA;
+      InventoryItem wi = new InventoryItem();
+      wi.maxAmount = 100;
+      wi.pickAmount = 5;
+      wi.type = ItemType.WINE;
+      mgr.insert(ci);
+      mgr.insert(wi);
       Assert.AreEqual(0, mgr.getAvailSlots());
 
       int used = mgr.use(ItemType.CEPA, 1);
@@ -72,8 +104,13 @@ namespace Tests
     public void InventoryTestInsertExistingShouldSum()
     {
       InventoryManager mgr = new InventoryManager();
-      mgr.insert(ItemType.CEPA, 1);
-      mgr.insert(ItemType.CEPA, 3);
+      InventoryItem item = new InventoryItem();
+      item.maxAmount = 100;
+      item.pickAmount = 1;
+      item.type = ItemType.CEPA;
+      mgr.insert(item);
+      item.pickAmount = 3;
+      mgr.insert(item);
 
       Assert.AreEqual(9, mgr.getAvailSlots());
       Assert.AreEqual(4, mgr.count(ItemType.CEPA));
@@ -83,7 +120,11 @@ namespace Tests
     public void InventoryTestShouldNotAddNegativeValues()
     {
       InventoryManager mgr = new InventoryManager();
-      mgr.insert(ItemType.CEPA, -10);
+      InventoryItem item = new InventoryItem();
+      item.maxAmount = 100;
+      item.pickAmount = -10;
+      item.type = ItemType.CEPA;
+      mgr.insert(item);
       Assert.AreEqual(10, mgr.getAvailSlots());
       Assert.AreEqual(0, mgr.count(ItemType.CEPA));
     }
@@ -92,7 +133,11 @@ namespace Tests
     public void InventoryTestShoudNotUseNegativeAmounts()
     {
       InventoryManager mgr = new InventoryManager();
-      mgr.insert(ItemType.CEPA, 10);
+      InventoryItem item = new InventoryItem();
+      item.maxAmount = 100;
+      item.pickAmount = 10;
+      item.type = ItemType.CEPA;
+      mgr.insert(item);
       int used = mgr.use(ItemType.CEPA, -1);
       Assert.AreEqual(0, used);
       Assert.AreEqual(9, mgr.getAvailSlots());

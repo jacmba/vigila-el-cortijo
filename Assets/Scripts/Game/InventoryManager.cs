@@ -2,42 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class InventoryManager
 {
   public int slots = 10;
-
-  private Dictionary<ItemType, int> itemMap = new Dictionary<ItemType, int>();
+  private Dictionary<ItemType, InventoryItem> itemMap = new Dictionary<ItemType, InventoryItem>();
 
   public int getAvailSlots()
   {
     return slots - itemMap.Count;
   }
 
-  public void insert(ItemType item, int amount)
+  public void insert(InventoryItem item)
   {
-    if (amount <= 0)
+    if (item.pickAmount <= 0)
     {
       return;
     }
 
-    int items;
-    if (itemMap.TryGetValue(item, out items))
+    InventoryItem current;
+    if (itemMap.TryGetValue(item.type, out current))
     {
-      itemMap.Remove(item);
+      current.increase(item.pickAmount);
     }
     else
     {
-      items = 0;
+      item.increase(item.pickAmount);
+      itemMap.Add(item.type, item);
     }
-    itemMap.Add(item, items + amount);
   }
 
   public int count(ItemType item)
   {
-    int items;
-    if (itemMap.TryGetValue(item, out items))
+    InventoryItem current;
+    if (itemMap.TryGetValue(item, out current))
     {
-      return items;
+      return current.count();
     }
     else
     {
@@ -52,20 +52,18 @@ public class InventoryManager
       return 0;
     }
 
-    int items;
-    int remain;
-    if (itemMap.TryGetValue(item, out items))
+    InventoryItem current;
+    if (itemMap.TryGetValue(item, out current))
     {
-      remain = items - amount;
+      int remain = current.count() - amount;
       if (remain <= 0)
       {
         itemMap.Remove(item);
-        return items;
+        return current.count();
       }
       else
       {
-        itemMap.Remove(item);
-        itemMap.Add(item, remain);
+        current.increase(-amount);
         return amount;
       }
     }

@@ -15,8 +15,18 @@ public class InventoryItem
   private int amount = 0;
 
   public Sprite icon;
-  public void increase()
+
+  public void increase(int a)
   {
-    amount++;
+    amount += a;
+    if (amount > maxAmount)
+    {
+      amount = maxAmount;
+    }
+  }
+
+  public int count()
+  {
+    return amount;
   }
 }

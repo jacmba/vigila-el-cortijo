@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
 
   public float MaxTimer = 3f;
 
+  public InventoryManager inventory;
+
   private float timer;
 
   /// <summary>
@@ -22,6 +24,7 @@ public class GameController : MonoBehaviour
     timer = 0f;
     EventManager.carEnter += OnCarEnter;
     EventManager.carExit += OnCarExit;
+    inventory = new InventoryManager();
   }
 
   /// <summary>
