@@ -22,8 +22,12 @@ public class GameController : MonoBehaviour
   void Start()
   {
     timer = 0f;
+
+    // Setup event observers
     EventManager.carEnter += OnCarEnter;
     EventManager.carExit += OnCarExit;
+    EventManager.pickItem += OnPickItem;
+
     inventory = new InventoryManager();
   }
 
@@ -34,6 +38,7 @@ public class GameController : MonoBehaviour
   {
     EventManager.carEnter -= OnCarEnter;
     EventManager.carExit -= OnCarExit;
+    EventManager.pickItem -= OnPickItem;
   }
 
   /// <summary>
@@ -58,5 +63,11 @@ public class GameController : MonoBehaviour
     player.SetActive(true);
     player.transform.position = t.position;
     mainCamera.target = player;
+  }
+
+  void OnPickItem(InventoryItem item)
+  {
+    Debug.Log("Picked " + item.pickAmount + " units of " + item.type);
+    inventory.insert(item);
   }
 }

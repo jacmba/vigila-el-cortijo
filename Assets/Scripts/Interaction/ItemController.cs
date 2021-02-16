@@ -24,6 +24,7 @@ public class ItemController : MonoBehaviour
       ItemCollecter collecter = other.gameObject.GetComponent<ItemCollecter>();
       if (collecter.IsCollecting())
       {
+        EventManager.OnPickItem(item);
         Destroy(gameObject);
       }
     }
