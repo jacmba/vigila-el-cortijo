@@ -9,6 +9,8 @@ public class EventManager
 
   public static event Action<InventoryItem> pickItem;
 
+  public static event Action toggleInventory;
+
   public static void OnCarEnter()
   {
     carEnter?.Invoke();
@@ -22,5 +24,10 @@ public class EventManager
   public static void OnPickItem(InventoryItem item)
   {
     pickItem?.Invoke(item);
+  }
+
+  public static void OnInventoryToggle()
+  {
+    toggleInventory?.Invoke();
   }
 }

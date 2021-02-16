@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
   private Animator animator;
   private CameraHook camHook;
   private ItemCollecter collecter;
+  private bool canToggleInv;
   // Start is called before the first frame update
   void Start()
   {
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     collecter = GetComponent<ItemCollecter>();
 
     EventManager.carEnter += OnCarEnter;
+
+    canToggleInv = true;
   }
 
   /// <summary>
@@ -64,6 +67,16 @@ public class PlayerController : MonoBehaviour
     {
       collecter.StartCollect();
       animator.SetTrigger("collect");
+    }
+
+    if (canToggleInv && im.select)
+    {
+      EventManager.OnInventoryToggle();
+      canToggleInv = false;
+    }
+    else if (!im.select)
+    {
+      canToggleInv = true;
     }
   }
 

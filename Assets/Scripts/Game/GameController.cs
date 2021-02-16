@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
   public InventoryManager inventory;
 
   private float timer;
+  private GameObject inventoryWindow;
+  private bool showInventory;
 
   /// <summary>
   /// Start is called before the first frame update
@@ -23,10 +25,14 @@ public class GameController : MonoBehaviour
   {
     timer = 0f;
 
+    inventoryWindow = transform.Find("InventoryWindow").gameObject;
+    showInventory = false;
+
     // Setup event observers
     EventManager.carEnter += OnCarEnter;
     EventManager.carExit += OnCarExit;
     EventManager.pickItem += OnPickItem;
+    EventManager.toggleInventory += OnInventoryToggle;
 
     inventory = new InventoryManager();
   }
@@ -39,6 +45,7 @@ public class GameController : MonoBehaviour
     EventManager.carEnter -= OnCarEnter;
     EventManager.carExit -= OnCarExit;
     EventManager.pickItem -= OnPickItem;
+    EventManager.toggleInventory -= OnInventoryToggle;
   }
 
   /// <summary>
@@ -69,5 +76,11 @@ public class GameController : MonoBehaviour
   {
     Debug.Log("Picked " + item.pickAmount + " units of " + item.type);
     inventory.insert(item);
+  }
+
+  void OnInventoryToggle()
+  {
+    showInventory = !showInventory;
+    inventoryWindow.SetActive(showInventory);
   }
 }
