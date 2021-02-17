@@ -2,7 +2,8 @@
     "name": "PlayTests",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "CortijoAssembly"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
