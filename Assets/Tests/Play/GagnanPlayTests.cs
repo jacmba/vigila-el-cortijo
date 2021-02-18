@@ -9,10 +9,15 @@ namespace Tests
 {
   public class TestGagnanPlay
   {
+    private GameObject gagnan;
+
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-      SceneManager.LoadScene("World");
+      gagnan = GameObject.Instantiate(Resources.Load("Prefabs/Gañan") as GameObject);
+      var im = gagnan.AddComponent<InputManager>();
+      var controller = gagnan.GetComponent<PlayerController>();
+      controller.im = im;
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
@@ -22,15 +27,10 @@ namespace Tests
     {
       // Use the Assert class to test conditions.
       // Use yield to skip a frame.
-      yield return new WaitForSeconds(0.1f);
+      yield return null;
 
-      GameObject g = GameObject.Find("Gañan");
-
-      Assert.IsNotNull(g);
-      Assert.AreEqual("Player", g.tag);
-
-      Rigidbody body = g.GetComponent<Rigidbody>();
-      Assert.AreEqual(90, body.mass);
+      Assert.IsNotNull(gagnan);
+      Assert.AreEqual("Player", gagnan.tag);
     }
 
     [UnityTest]
@@ -40,9 +40,7 @@ namespace Tests
       // Use yield to skip a frame.
       yield return new WaitForSeconds(0.1f);
 
-      GameObject g = GameObject.Find("Gañan");
-
-      Rigidbody body = g.GetComponent<Rigidbody>();
+      Rigidbody body = gagnan.GetComponent<Rigidbody>();
       Assert.AreEqual(90, body.mass);
     }
   }
