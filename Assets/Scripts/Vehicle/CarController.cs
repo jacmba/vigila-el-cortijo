@@ -17,6 +17,8 @@ public class CarController : MonoBehaviour
   private bool canExit;
   private bool parked;
 
+  private bool canToggle;
+
   void Start()
   {
     body = GetComponent<Rigidbody>();
@@ -25,6 +27,7 @@ public class CarController : MonoBehaviour
     entry = transform.Find("Entry");
     canExit = false;
     parked = true;
+    canToggle = true;
   }
 
   // Update is called once per frame
@@ -55,6 +58,16 @@ public class CarController : MonoBehaviour
     else if (!im.a)
     {
       canExit = true;
+    }
+
+    if (im.select && canToggle)
+    {
+      EventManager.OnInventoryToggle();
+      canToggle = false;
+    }
+    else if (!im.select)
+    {
+      canToggle = true;
     }
   }
 
