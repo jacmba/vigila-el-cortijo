@@ -2,16 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Main game logic
+/// </summary>
 public class GameController : MonoBehaviour
 {
+  /// <summary>
+  /// Player character instance
+  /// </summary>
   public GameObject player;
 
+  /// <summary>
+  /// Player car instance
+  /// </summary>
   public GameObject car;
 
+  /// <summary>
+  /// Main camera handle
+  /// </summary>
   public CameraController mainCamera;
 
+  /// <summary>
+  /// Not used currently
+  /// </summary>
   public float MaxTimer = 3f;
 
+  /// <summary>
+  /// Inventory reference
+  /// </summary>
   public InventoryManager inventory;
 
   private float timer;
@@ -62,12 +80,19 @@ public class GameController : MonoBehaviour
     }
   }
 
+  /// <summary>
+  /// Event called when player enters in the car
+  /// </summary>
   void OnCarEnter()
   {
     car.GetComponent<CarController>().enabled = true;
     mainCamera.target = car;
   }
 
+  /// <summary>
+  /// Event called when player gets off the car
+  /// </summary>
+  /// <param name="t"></param>
   void OnCarExit(Transform t)
   {
     player.SetActive(true);
@@ -75,12 +100,19 @@ public class GameController : MonoBehaviour
     mainCamera.target = player;
   }
 
+  /// <summary>
+  /// Event called when player picks an item
+  /// </summary>
+  /// <param name="item"></param>
   void OnPickItem(InventoryItem item)
   {
     Debug.Log("Picked " + item.pickAmount + " units of " + item.name);
     inventory.insert(item);
   }
 
+  /// <summary>
+  /// Event called when player requests to toggle inventory window
+  /// </summary>
   void OnInventoryToggle()
   {
     showInventory = !showInventory;

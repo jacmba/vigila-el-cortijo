@@ -55,8 +55,8 @@ namespace Tests
       Assert.AreEqual(ItemType.CEPA, slot1.item.type);
       Assert.AreEqual(1, slot1.item.count());
       Assert.IsTrue(slot1.infoNode.activeSelf);
-      /*Assert.AreEqual(item.icon, slot1.icon.sprite);
-      Assert.AreEqual("x1", slot1.count.text);*/
+      Assert.AreEqual(item.icon, slot1.icon.sprite);
+      Assert.AreEqual("x1", slot1.count.text);
     }
   }
 }
