@@ -37,6 +37,16 @@ namespace Tests
     }
 
     [Test]
+    public void InventoryItemShouldHaveZeroElementsWhenCleared()
+    {
+      InventoryItem item = new InventoryItem();
+      item.maxAmount = 100;
+      item.increase(10);
+      item.clear();
+      Assert.AreEqual(0, item.count());
+    }
+
+    [Test]
     public void InventoryTestsCheckAvailableSlots()
     {
       InventoryManager mgr = new InventoryManager();
