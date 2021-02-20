@@ -153,5 +153,23 @@ namespace Tests
       Assert.AreEqual(9, mgr.getAvailSlots());
       Assert.AreEqual(10, mgr.count(ItemType.CEPA));
     }
+
+    [Test]
+    public void InventoryTestsGet()
+    {
+      InventoryManager mgr = new InventoryManager();
+      InventoryItem item = new InventoryItem();
+      item.maxAmount = 200;
+      item.pickAmount = 3;
+      item.type = ItemType.WINE;
+      mgr.insert(item);
+
+      InventoryItem result = mgr.get(0);
+
+      Assert.IsNotNull(result);
+      Assert.AreEqual(200, result.maxAmount);
+      Assert.AreEqual(3, item.pickAmount);
+      Assert.AreEqual(ItemType.WINE, result.type);
+    }
   }
 }

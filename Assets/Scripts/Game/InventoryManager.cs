@@ -72,4 +72,18 @@ public class InventoryManager
       return 0;
     }
   }
+
+  public InventoryItem get(int pos)
+  {
+    if (pos >= 0 && pos < itemMap.Count)
+    {
+      Dictionary<ItemType, InventoryItem>.ValueCollection values = itemMap.Values;
+      InventoryItem[] valueArr = (new List<InventoryItem>(values)).ToArray();
+      return valueArr[pos];
+    }
+    else
+    {
+      return null;
+    }
+  }
 }

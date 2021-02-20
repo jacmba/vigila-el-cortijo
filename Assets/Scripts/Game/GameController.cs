@@ -26,6 +26,9 @@ public class GameController : MonoBehaviour
     timer = 0f;
 
     inventoryWindow = transform.Find("InventoryWindow").gameObject;
+    InventoryWindowController inventoryWindowController = GetComponent<InventoryWindowController>();
+    inventory.slots = inventoryWindowController.slots.Length;
+
     showInventory = false;
 
     // Setup event observers
@@ -74,7 +77,7 @@ public class GameController : MonoBehaviour
 
   void OnPickItem(InventoryItem item)
   {
-    Debug.Log("Picked " + item.pickAmount + " units of " + item.type);
+    Debug.Log("Picked " + item.pickAmount + " units of " + item.name);
     inventory.insert(item);
   }
 
