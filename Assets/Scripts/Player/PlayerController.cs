@@ -45,22 +45,28 @@ public class PlayerController : MonoBehaviour
   {
     if (im.v > 0.1f)
     {
-      transform.Translate(Vector3.forward * speed * Time.deltaTime);
-      animator.SetBool("running", true);
-      camHook.follow = true;
+      if (!collecter.IsCollecting())
+      {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        animator.SetBool("running", true);
+        camHook.follow = true;
+      }
     }
     else if (im.v < -0.1f)
     {
-      transform.Translate(Vector3.forward * -speed * Time.deltaTime);
-      animator.SetBool("running", true);
-      camHook.follow = true;
+      if (!collecter.IsCollecting())
+      {
+        transform.Translate(Vector3.forward * -speed * Time.deltaTime);
+        animator.SetBool("running", true);
+        camHook.follow = true;
+      }
     }
     else
     {
       animator.SetBool("running", false);
     }
 
-    if (im.h > 0.1f || im.h < -0.1f)
+    if (im.h > 0.1f || im.h < -0.1f && !collecter.IsCollecting())
     {
       transform.Rotate(Vector3.up * rotationSpeed * im.h * Time.deltaTime);
     }

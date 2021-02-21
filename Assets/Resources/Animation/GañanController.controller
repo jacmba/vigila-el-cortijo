@@ -191,7 +191,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rig|Idle1
+  m_Name: idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -295,7 +295,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rig|Idle2
+  m_Name: idle2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -324,7 +324,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rig|Land
+  m_Name: land
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -351,7 +351,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rig|Run
+  m_Name: run
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -404,7 +404,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rig|Crouch
+  m_Name: vendimia
   m_Speed: 10
   m_CycleOffset: 0
   m_Transitions:

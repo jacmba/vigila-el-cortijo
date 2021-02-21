@@ -10,13 +10,15 @@ namespace Tests
   public class TestGagnanPlay
   {
     private GameObject gagnan;
+    private IInputManager im;
+    private PlayerController controller;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
       gagnan = GameObject.Instantiate(Resources.Load("Prefabs/Gañan") as GameObject);
-      var im = gagnan.AddComponent<InputManager>();
-      var controller = gagnan.GetComponent<PlayerController>();
+      im = gagnan.AddComponent<InputManager>();
+      controller = gagnan.GetComponent<PlayerController>();
       controller.im = im;
     }
 
@@ -41,6 +43,25 @@ namespace Tests
       yield return null;
       Rigidbody body = gagnan.GetComponent<Rigidbody>();
       Assert.AreEqual(90, body.mass);
+    }
+
+    [UnityTest]
+    public IEnumerator TestGagnanPlayGagnanShouldNotMoveWhileCrouching()
+    {
+      Animator animator = gagnan.GetComponent<Animator>();
+      Vector3 initPos = gagnan.transform.position;
+      im.b = true;
+
+      yield return null;
+
+      im.v = 1f;
+
+      yield return new WaitForSeconds(.5f);
+
+      Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsName("vendimia"));
+      Assert.AreEqual(initPos.x, gagnan.transform.position.x);
+      Assert.AreEqual(initPos.z, gagnan.transform.position.z);
+      Assert.IsFalse(animator.GetBool("running"));
     }
   }
 }
