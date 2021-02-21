@@ -77,9 +77,10 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   void Update()
   {
-    if (im.b && !collecter.IsCollecting())
+    if (im.b && !collecter.IsCollecting() && !animator.GetBool("running"))
     {
       collecter.StartCollect();
+      animator.SetBool("running", false);
       animator.SetTrigger("collect");
     }
 
