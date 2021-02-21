@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
   private CameraHook camHook;
   private ItemCollecter collecter;
   private bool canToggleInv;
+  private bool rotating;
 
   /// <summary>
   /// Start is called before the first frame update
@@ -69,6 +70,11 @@ public class PlayerController : MonoBehaviour
     if ((im.h > 0.1f || im.h < -0.1f) && !collecter.IsCollecting())
     {
       transform.Rotate(Vector3.up * rotationSpeed * im.h * Time.deltaTime);
+      rotating = true;
+    }
+    else
+    {
+      rotating = false;
     }
   }
 
@@ -77,7 +83,7 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   void Update()
   {
-    if (im.b && !collecter.IsCollecting() && !animator.GetBool("running"))
+    if (im.b && !collecter.IsCollecting() && !animator.GetBool("running") && !rotating)
     {
       collecter.StartCollect();
       animator.SetBool("running", false);

@@ -77,7 +77,7 @@ namespace Tests
     }
 
     [UnityTest]
-    public IEnumerator TestGagnanPlayGagnanShouldNotRotateWhileCrhouching()
+    public IEnumerator TestGagnanPlayGagnanShouldNotRotateWhileCrouching()
     {
       Quaternion initRot = gagnan.transform.rotation;
       im.b = true;
@@ -86,7 +86,7 @@ namespace Tests
 
       im.h = 1f;
 
-      yield return new WaitForSeconds(.5f);
+      yield return new WaitForSeconds(.1f);
 
       Assert.AreEqual(initRot, gagnan.transform.rotation);
     }
@@ -105,6 +105,23 @@ namespace Tests
 
       Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsName("run"));
       Assert.IsTrue(animator.GetBool("running"));
+    }
+
+    [UnityTest]
+    public IEnumerator TestGagnanShouldNotStartVendimiaWhileRotating()
+    {
+      Animator animator = gagnan.GetComponent<Animator>();
+      Quaternion initRot = gagnan.transform.rotation;
+      im.h = 1f;
+
+      yield return new WaitForSeconds(.5f);
+
+      im.b = true;
+
+      yield return new WaitForSeconds(.5f);
+
+      Assert.IsFalse(animator.GetCurrentAnimatorStateInfo(0).IsName("vendimia"));
+      Assert.AreNotEqual(initRot, gagnan.transform.rotation);
     }
   }
 }
