@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+/// <summary>
+/// Imput handling implementation class
+/// </summary>
+public class InputManager : IInputManager
 {
-  public float throttle;
-  public float steer;
-  public float h;
-  public float v;
-  public bool a;
-  public bool b;
-
-  public bool select;
-
-  // Update is called once per frame
+  /// <summary>
+  /// Update is called once per frame
+  /// </summary>
   void Update()
   {
     throttle = Input.GetAxis("Vertical");
