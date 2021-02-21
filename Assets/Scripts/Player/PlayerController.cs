@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
       animator.SetBool("running", false);
     }
 
-    if (im.h > 0.1f || im.h < -0.1f && !collecter.IsCollecting())
+    if ((im.h > 0.1f || im.h < -0.1f) && !collecter.IsCollecting())
     {
       transform.Rotate(Vector3.up * rotationSpeed * im.h * Time.deltaTime);
     }

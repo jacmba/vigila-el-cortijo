@@ -63,5 +63,20 @@ namespace Tests
       Assert.AreEqual(initPos.z, gagnan.transform.position.z);
       Assert.IsFalse(animator.GetBool("running"));
     }
+
+    [UnityTest]
+    public IEnumerator TestGagnanPlayGagnanShouldNotRotateWhileCrhouching()
+    {
+      Quaternion initRot = gagnan.transform.rotation;
+      im.b = true;
+
+      yield return null;
+
+      im.h = 1f;
+
+      yield return new WaitForSeconds(.5f);
+
+      Assert.AreEqual(initRot, gagnan.transform.rotation);
+    }
   }
 }
