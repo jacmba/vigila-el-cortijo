@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Player main script class
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
-  public InputManager im;
+  public IInputManager im;
   public float speed = 1f;
   public float rotationSpeed = 15f;
 
@@ -12,7 +15,11 @@ public class PlayerController : MonoBehaviour
   private CameraHook camHook;
   private ItemCollecter collecter;
   private bool canToggleInv;
-  // Start is called before the first frame update
+  private bool rotating;
+
+  /// <summary>
+  /// Start is called before the first frame update
+  /// </summary>
   void Start()
   {
     animator = GetComponent<Animator>();
@@ -32,29 +39,42 @@ public class PlayerController : MonoBehaviour
     EventManager.carEnter -= OnCarEnter;
   }
 
-  // Update is called once per frame
+  /// <summary>
+  /// Update is called once per frame
+  /// </summary>
   void FixedUpdate()
   {
     if (im.v > 0.1f)
     {
-      transform.Translate(Vector3.forward * speed * Time.deltaTime);
-      animator.SetBool("running", true);
-      camHook.follow = true;
+      if (!collecter.IsCollecting())
+      {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        animator.SetBool("running", true);
+        camHook.follow = true;
+      }
     }
     else if (im.v < -0.1f)
     {
-      transform.Translate(Vector3.forward * -speed * Time.deltaTime);
-      animator.SetBool("running", true);
-      camHook.follow = true;
+      if (!collecter.IsCollecting())
+      {
+        transform.Translate(Vector3.forward * -speed * Time.deltaTime);
+        animator.SetBool("running", true);
+        camHook.follow = true;
+      }
     }
     else
     {
       animator.SetBool("running", false);
     }
 
-    if (im.h > 0.1f || im.h < -0.1f)
+    if ((im.h > 0.1f || im.h < -0.1f) && !collecter.IsCollecting())
     {
       transform.Rotate(Vector3.up * rotationSpeed * im.h * Time.deltaTime);
+      rotating = true;
+    }
+    else
+    {
+      rotating = false;
     }
   }
 
@@ -63,9 +83,10 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   void Update()
   {
-    if (im.b && !collecter.IsCollecting())
+    if (im.b && !collecter.IsCollecting() && !animator.GetBool("running") && !rotating)
     {
       collecter.StartCollect();
+      animator.SetBool("running", false);
       animator.SetTrigger("collect");
     }
 
@@ -80,6 +101,9 @@ public class PlayerController : MonoBehaviour
     }
   }
 
+  /// <summary>
+  /// Event triggered when the character enters in vehicle
+  /// </summary>
   void OnCarEnter()
   {
     gameObject.SetActive(false);
