@@ -38,7 +38,6 @@ public class CarController : MonoBehaviour
   /// </summary>
   public GameObject cm;
 
-  private GameController gameController;
   private Rigidbody body;
   private Transform entry;
   private bool canExit;
@@ -53,7 +52,6 @@ public class CarController : MonoBehaviour
   {
     body = GetComponent<Rigidbody>();
     body.centerOfMass = cm.transform.localPosition;
-    gameController = im.gameObject.GetComponent<GameController>();
     entry = transform.Find("Entry");
     canExit = false;
     parked = true;
@@ -65,41 +63,44 @@ public class CarController : MonoBehaviour
   /// </summary>
   void FixedUpdate()
   {
-    foreach (Wheel wheel in wheels)
+    if (!parked)
     {
-      WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
-      if (wheel.Transmision)
+      foreach (Wheel wheel in wheels)
       {
-        w.motorTorque = maxTorque * im.throttle;
+        WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
+        if (wheel.Transmision)
+        {
+          w.motorTorque = maxTorque * im.throttle;
+        }
+        if (wheel.Direction)
+        {
+          w.steerAngle = maxTurn * im.steer;
+        }
       }
-      if (wheel.Direction)
+
+      // Exit the car
+      if (im.a && canExit)
       {
-        w.steerAngle = maxTurn * im.steer;
+        body.velocity = Vector3.zero;
+        EventManager.OnCarExit(entry);
+        StartCoroutine(deferEnable());
+        canExit = false;
+        enabled = false;
       }
-    }
+      else if (!im.a)
+      {
+        canExit = true;
+      }
 
-    // Exit the car
-    if (im.a && canExit)
-    {
-      body.velocity = Vector3.zero;
-      EventManager.OnCarExit(entry);
-      StartCoroutine(deferEnable());
-      canExit = false;
-      enabled = false;
-    }
-    else if (!im.a)
-    {
-      canExit = true;
-    }
-
-    if (im.select && canToggle)
-    {
-      EventManager.OnInventoryToggle();
-      canToggle = false;
-    }
-    else if (!im.select)
-    {
-      canToggle = true;
+      if (im.select && canToggle)
+      {
+        EventManager.OnInventoryToggle();
+        canToggle = false;
+      }
+      else if (!im.select)
+      {
+        canToggle = true;
+      }
     }
   }
 
