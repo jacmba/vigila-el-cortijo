@@ -56,6 +56,16 @@ public class CarController : MonoBehaviour
     canExit = false;
     parked = true;
     canToggle = true;
+
+    EventManager.carEnter += OnCarEnter;
+  }
+
+  /// <summary>
+  /// This function is called when the MonoBehaviour will be destroyed.
+  /// </summary>
+  void OnDestroy()
+  {
+    EventManager.carEnter -= OnCarEnter;
   }
 
   /// <summary>
@@ -68,6 +78,7 @@ public class CarController : MonoBehaviour
       foreach (Wheel wheel in wheels)
       {
         WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
+        w.brakeTorque = 0f;
         if (wheel.Transmision)
         {
           w.motorTorque = maxTorque * im.throttle;
@@ -85,7 +96,7 @@ public class CarController : MonoBehaviour
         EventManager.OnCarExit(entry);
         StartCoroutine(deferEnable());
         canExit = false;
-        enabled = false;
+        parked = true;
       }
       else if (!im.a)
       {
@@ -102,6 +113,14 @@ public class CarController : MonoBehaviour
         canToggle = true;
       }
     }
+    else
+    {
+      foreach (Wheel wheel in wheels)
+      {
+        WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
+        w.brakeTorque = 1000f;
+      }
+    }
   }
 
   /// <summary>
@@ -109,22 +128,37 @@ public class CarController : MonoBehaviour
   /// </summary>
   void Update()
   {
-    foreach (Wheel wheel in wheels)
+    if (!parked)
     {
-      Vector3 pos = Vector3.zero;
-      Quaternion rot = Quaternion.identity;
+      foreach (Wheel wheel in wheels)
+      {
+        Vector3 pos = Vector3.zero;
+        Quaternion rot = Quaternion.identity;
 
-      WheelCollider col = wheel.Object.GetComponent<WheelCollider>();
-      Transform vis = col.transform.GetChild(0);
+        WheelCollider col = wheel.Object.GetComponent<WheelCollider>();
+        Transform vis = col.transform.GetChild(0);
 
-      col.GetWorldPose(out pos, out rot);
-      vis.rotation = rot;
+        col.GetWorldPose(out pos, out rot);
+        vis.rotation = rot;
+      }
     }
   }
 
+  /// <summary>
+  /// Request activation of enter area after 1 second
+  /// </summary>
+  /// <returns></returns>
   IEnumerator deferEnable()
   {
     yield return new WaitForSeconds(1);
     entry.gameObject.SetActive(true);
+  }
+
+  /// <summary>
+  /// Event triggered when the character jumps into the car
+  /// </summary>
+  public void OnCarEnter()
+  {
+    parked = false;
   }
 }

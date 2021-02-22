@@ -24,13 +24,27 @@ namespace Tests
       im = terra.AddComponent<MockInput>();
       controller.im = im;
 
+      GameObject playerPref = Resources.Load<GameObject>("Prefabs/Gañan");
+      GameObject player = GameObject.Instantiate(playerPref);
+      PlayerController pc = player.GetComponent<PlayerController>();
+      pc.im = player.AddComponent<MockInput>();
+
+      GameObject camObj = new GameObject();
+      Camera cam = camObj.AddComponent<Camera>();
+
       GameObject gcPref = Resources.Load<GameObject>("Prefabs/GameController");
       GameObject gc = GameObject.Instantiate(gcPref);
       GameController gameController = gc.GetComponent<GameController>();
-      gameIm = gc.AddComponent<MockInput>();
 
       InteractArea ia = terra.GetComponentInChildren<InteractArea>();
       ia.gameController = gameController;
+
+      gameIm = gc.AddComponent<MockInput>();
+      gameController.mainCamera = camObj.AddComponent<CameraController>();
+      gameController.car = terra;
+      gameController.player = player;
+
+      gameController.mainCamera.target = player;
 
       GameObject cortiPref = Resources.Load<GameObject>("Prefabs/cortijo");
       GameObject cortijo = GameObject.Instantiate(cortiPref);
@@ -48,13 +62,16 @@ namespace Tests
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
     [UnityTest]
-    public IEnumerator CarPlaytestsWithEnumeratorPasses()
+    public IEnumerator CarPlayTestsWithEnumeratorPasses()
     {
+      WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
+
       yield return null;
 
       Assert.IsNotNull(terra, "Terra object should not be null");
       Assert.IsNotNull(body, "Rigidbody should not be null");
       Assert.IsNotNull(controller, "Car controller should not be null");
+      Assert.IsNotNull(anyWheel, "Wheel should not be null");
 
       Assert.AreEqual(700, body.mass, "Seat Terra should weight 700 kgs");
       Assert.IsTrue(controller.enabled, "Car controller should be enabled");
@@ -63,7 +80,24 @@ namespace Tests
 
       yield return new WaitForSeconds(1f);
 
-      Assert.LessOrEqual(body.velocity.magnitude, 0.01f, "Car speed should be 0");
+      Assert.LessOrEqual(body.velocity.magnitude, 0.1f, "Car speed should be 0");
+      Assert.AreEqual(1000f, anyWheel.brakeTorque, "Max braking force should be applied");
+    }
+
+    [UnityTest]
+    public IEnumerator CarPlayTestsShouldMoveWhenCharacterEnters()
+    {
+      WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
+      EventManager.OnCarEnter();
+
+      yield return null;
+
+      im.throttle = 1f;
+
+      yield return new WaitForSeconds(1f);
+
+      Assert.GreaterOrEqual(body.velocity.magnitude, 1f, "Car speed should be at least 1");
+      Assert.AreEqual(0, anyWheel.brakeTorque, "Brake force should be 0");
     }
   }
 }

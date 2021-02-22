@@ -85,7 +85,6 @@ public class GameController : MonoBehaviour
   /// </summary>
   void OnCarEnter()
   {
-    car.GetComponent<CarController>().enabled = true;
     mainCamera.target = car;
   }
 
