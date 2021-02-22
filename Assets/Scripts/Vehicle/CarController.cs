@@ -2,13 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class to handle vehicle control
+/// </summary>
 public class CarController : MonoBehaviour
 {
-  public InputManager im;
+  /// <summary>
+  /// User input reference
+  /// </summary>
+  public IInputManager im;
+
+  /// <summary>
+  /// List of physic wheels
+  /// </summary>
   public List<Wheel> wheels;
+
+  /// <summary>
+  /// Currently not used
+  /// </summary>
   public float strengthCoefficient = 20f;
+
+  /// <summary>
+  /// Maximum steering
+  /// </summary>
+  /// 
   public float maxTurn = 20f;
+
+  /// <summary>
+  /// Maximum engine power
+  /// </summary>
   public float maxTorque = 80f;
+
+  /// <summary>
+  /// Center of mass reference object
+  /// </summary>
   public GameObject cm;
 
   private GameController gameController;
@@ -19,6 +46,9 @@ public class CarController : MonoBehaviour
 
   private bool canToggle;
 
+  /// <summary>
+  /// Start is called before the first frame update
+  /// </summary>
   void Start()
   {
     body = GetComponent<Rigidbody>();
@@ -30,7 +60,9 @@ public class CarController : MonoBehaviour
     canToggle = true;
   }
 
-  // Update is called once per frame
+  /// <summary>
+  /// Update is called once per frame
+  /// </summary>
   void FixedUpdate()
   {
     foreach (Wheel wheel in wheels)
@@ -71,6 +103,9 @@ public class CarController : MonoBehaviour
     }
   }
 
+  /// <summary>
+  /// Update is called once per frame
+  /// </summary>
   void Update()
   {
     foreach (Wheel wheel in wheels)
