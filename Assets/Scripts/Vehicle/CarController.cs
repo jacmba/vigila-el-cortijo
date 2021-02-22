@@ -34,6 +34,11 @@ public class CarController : MonoBehaviour
   public float maxTorque = 80f;
 
   /// <summary>
+  /// Maximum braking force
+  /// </summary>
+  public float maxBrake = 500f;
+
+  /// <summary>
   /// Center of mass reference object
   /// </summary>
   public GameObject cm;
@@ -42,6 +47,10 @@ public class CarController : MonoBehaviour
   private Transform entry;
   private bool canExit;
   private bool parked;
+  private Direction direction;
+  private float speed;
+
+  private static readonly float ZERO = 0.000000000000f;
 
   private bool canToggle;
 
@@ -56,6 +65,7 @@ public class CarController : MonoBehaviour
     canExit = false;
     parked = true;
     canToggle = true;
+    direction = Direction.NEUTRAL;
 
     EventManager.carEnter += OnCarEnter;
   }
@@ -73,12 +83,48 @@ public class CarController : MonoBehaviour
   /// </summary>
   void FixedUpdate()
   {
+    Vector2 speedV = new Vector2(body.velocity.x, body.velocity.z);
+    speed = speedV.magnitude;
+
     if (!parked)
     {
+      if (direction == Direction.NEUTRAL)
+      {
+        if (im.throttle > .1f)
+        {
+          direction = Direction.FORWARD;
+        }
+        else if (im.throttle < .1f)
+        {
+          direction = Direction.REAR;
+        }
+      }
+      else if (speed < 0.1f)
+      {
+        direction = Direction.NEUTRAL;
+      }
       foreach (Wheel wheel in wheels)
       {
         WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
-        w.brakeTorque = 0f;
+
+        if (Mathf.Abs(im.throttle) < .1f)
+        {
+          w.brakeTorque = ZERO;
+        }
+        else if (direction == Direction.FORWARD && im.throttle < ZERO)
+        {
+          w.brakeTorque += -im.throttle;
+        }
+        else if (direction == Direction.REAR && im.throttle > ZERO)
+        {
+          w.brakeTorque += im.throttle;
+        }
+
+        if (w.brakeTorque > maxBrake)
+        {
+          w.brakeTorque = maxBrake;
+        }
+
         if (wheel.Transmision)
         {
           w.motorTorque = maxTorque * im.throttle;
@@ -97,6 +143,7 @@ public class CarController : MonoBehaviour
         StartCoroutine(deferEnable());
         canExit = false;
         parked = true;
+        direction = Direction.NEUTRAL;
       }
       else if (!im.a)
       {
@@ -113,7 +160,7 @@ public class CarController : MonoBehaviour
         canToggle = true;
       }
     }
-    else
+    else // Apply parking brake force when character is out of the car
     {
       foreach (Wheel wheel in wheels)
       {
@@ -160,5 +207,14 @@ public class CarController : MonoBehaviour
   public void OnCarEnter()
   {
     parked = false;
+  }
+
+  /// <summary>
+  /// Get movement direction
+  /// </summary>
+  /// <returns>Direction</returns>
+  public Direction getDirection()
+  {
+    return direction;
   }
 }

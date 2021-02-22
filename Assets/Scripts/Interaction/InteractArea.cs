@@ -18,6 +18,10 @@ public class InteractArea : MonoBehaviour
     im = gameController.gameObject.GetComponent<IInputManager>();
   }
 
+  /// <summary>
+  /// Event called when an object enters a trigger collider
+  /// </summary>
+  /// <param name="other">Object that entered the trigger collider</param>
   void OnTriggerStay(Collider other)
   {
     if (other.gameObject.tag == "Player" && im.a)

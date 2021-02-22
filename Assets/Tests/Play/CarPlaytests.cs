@@ -13,6 +13,8 @@ namespace Tests
     private CarController controller;
     private MockInput im;
     private MockInput gameIm;
+    private Vector3 initPos;
+    private Quaternion initRot;
 
     [OneTimeSetUp]
     public void OneTimeSetup()
@@ -20,6 +22,8 @@ namespace Tests
       GameObject terraPref = Resources.Load<GameObject>("Prefabs/Terra");
       terra = GameObject.Instantiate(terraPref);
       body = terra.GetComponent<Rigidbody>();
+      initPos = terra.transform.position;
+      initRot = terra.transform.rotation;
       controller = terra.GetComponent<CarController>();
       im = terra.AddComponent<MockInput>();
       controller.im = im;
@@ -55,8 +59,13 @@ namespace Tests
     {
       im.throttle = 0f;
       im.steer = 0f;
+      im.a = false;
 
       gameIm.a = false;
+
+      terra.transform.position = initPos;
+      terra.transform.rotation = initRot;
+      body.velocity = Vector3.zero;
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
@@ -98,6 +107,38 @@ namespace Tests
 
       Assert.GreaterOrEqual(body.velocity.magnitude, 1f, "Car speed should be at least 1");
       Assert.AreEqual(0, anyWheel.brakeTorque, "Brake force should be 0");
+
+      im.a = true;
+
+      yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator CarPlayTestsShouldApplyBrakeForceWhenApplyOppsotiteThrottle()
+    {
+      WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
+      EventManager.OnCarEnter();
+
+      yield return null;
+
+      im.throttle = 1f;
+
+      yield return new WaitForSeconds(1f);
+
+      float preSpeed = body.velocity.magnitude;
+      im.throttle = -1f;
+
+      yield return new WaitForSeconds(1f);
+
+      float postSpeed = body.velocity.magnitude;
+
+      Assert.GreaterOrEqual(anyWheel.brakeTorque, 1f, "Braking force should be at least 1");
+      Assert.Less(postSpeed, preSpeed, "Speed after braking should be smaller after applying brakes");
+      Assert.AreEqual(Direction.FORWARD, controller.getDirection(), "Movement direction should be forward");
+
+      im.a = true;
+
+      yield return null;
     }
   }
 }
