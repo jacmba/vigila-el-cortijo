@@ -7,7 +7,7 @@ public class InteractArea : MonoBehaviour
   public GameController gameController;
   public AreaAction action;
 
-  private InputManager im;
+  private IInputManager im;
 
   /// <summary>
   /// Start is called on the frame when a script is enabled just before
@@ -15,9 +15,13 @@ public class InteractArea : MonoBehaviour
   /// </summary>
   void Start()
   {
-    im = gameController.gameObject.GetComponent<InputManager>();
+    im = gameController.gameObject.GetComponent<IInputManager>();
   }
 
+  /// <summary>
+  /// Event called when an object enters a trigger collider
+  /// </summary>
+  /// <param name="other">Object that entered the trigger collider</param>
   void OnTriggerStay(Collider other)
   {
     if (other.gameObject.tag == "Player" && im.a)
