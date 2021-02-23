@@ -49,6 +49,7 @@ public class CarController : MonoBehaviour
   private bool parked;
   private Direction direction;
   private float speed;
+  private GameObject escape;
 
   private static readonly float ZERO = 0.000000000000f;
 
@@ -62,6 +63,7 @@ public class CarController : MonoBehaviour
     body = GetComponent<Rigidbody>();
     body.centerOfMass = cm.transform.localPosition;
     entry = transform.Find("Entry");
+    escape = transform.Find("Escape").gameObject;
     canExit = false;
     parked = true;
     canToggle = true;
@@ -142,6 +144,7 @@ public class CarController : MonoBehaviour
         canExit = false;
         parked = true;
         direction = Direction.NEUTRAL;
+        escape.SetActive(false);
       }
       else if (!im.a)
       {
@@ -206,6 +209,7 @@ public class CarController : MonoBehaviour
   public void OnCarEnter()
   {
     parked = false;
+    escape.SetActive(true);
   }
 
   /// <summary>

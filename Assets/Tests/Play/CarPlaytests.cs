@@ -114,7 +114,7 @@ namespace Tests
     }
 
     [UnityTest]
-    public IEnumerator CarPlayTestsShouldApplyBrakeForceWhenApplyOppsotiteThrottle()
+    public IEnumerator CarPlayTestsShouldApplyBrakeForceWhenApplyOppsoiteThrottle()
     {
       WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
       EventManager.OnCarEnter();
@@ -128,7 +128,7 @@ namespace Tests
       float preSpeed = controller.getSpeed();
       im.throttle = -1f;
 
-      yield return new WaitForSeconds(1f);
+      yield return new WaitForSeconds(.1f);
 
       float postSpeed = controller.getSpeed();
       Debug.Log(postSpeed);
@@ -164,6 +164,23 @@ namespace Tests
       im.a = true;
 
       yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator CarPlayTestsShouldThrowSmokeWhenRunning()
+    {
+      GameObject smoke = terra.transform.Find("Escape").gameObject;
+      EventManager.OnCarEnter();
+
+      yield return new WaitForSeconds(.1f);
+
+      Assert.IsTrue(smoke.activeSelf, "Smoke should be active when Gañán on the car");
+
+      im.a = true;
+
+      yield return new WaitForSeconds(.1f);
+
+      Assert.IsFalse(smoke.activeSelf, "Smoke should not be active when Gañán got off the car");
     }
   }
 }
