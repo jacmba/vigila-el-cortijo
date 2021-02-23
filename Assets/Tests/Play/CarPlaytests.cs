@@ -123,18 +123,43 @@ namespace Tests
 
       im.throttle = 1f;
 
-      yield return new WaitForSeconds(1f);
+      yield return new WaitForSeconds(2f);
 
-      float preSpeed = body.velocity.magnitude;
+      float preSpeed = controller.getSpeed();
       im.throttle = -1f;
 
       yield return new WaitForSeconds(1f);
 
-      float postSpeed = body.velocity.magnitude;
+      float postSpeed = controller.getSpeed();
+      Debug.Log(postSpeed);
 
       Assert.GreaterOrEqual(anyWheel.brakeTorque, 1f, "Braking force should be at least 1");
       Assert.Less(postSpeed, preSpeed, "Speed after braking should be smaller after applying brakes");
-      Assert.AreEqual(Direction.FORWARD, controller.getDirection(), "Movement direction should be forward");
+      Assert.AreEqual(Direction.FORWARD, controller.getDirection(), "Car direction should be forward");
+
+      im.a = true;
+
+      yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator CarPlayTestsShouldContinueMovingForwardAfterCrashStop()
+    {
+      WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
+      EventManager.OnCarEnter();
+
+      yield return null;
+
+      im.throttle = 1f;
+
+      yield return new WaitForSeconds(1f);
+
+      body.velocity = Vector3.zero;
+
+      yield return new WaitForSeconds(2f);
+
+      Assert.GreaterOrEqual(controller.getSpeed(), 1, "Car speed should be at least 1");
+      Assert.Less(anyWheel.brakeTorque, 0.001, "Break force should be zero");
 
       im.a = true;
 

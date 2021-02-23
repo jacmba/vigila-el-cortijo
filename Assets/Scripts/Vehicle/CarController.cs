@@ -83,41 +83,39 @@ public class CarController : MonoBehaviour
   /// </summary>
   void FixedUpdate()
   {
-    Vector2 speedV = new Vector2(body.velocity.x, body.velocity.z);
-    speed = speedV.magnitude;
+    Vector3 relV = transform.InverseTransformDirection(body.velocity);
+    speed = relV.z;
 
     if (!parked)
     {
-      if (direction == Direction.NEUTRAL)
+      if (speed > 0.001)
       {
-        if (im.throttle > .1f)
-        {
-          direction = Direction.FORWARD;
-        }
-        else if (im.throttle < .1f)
-        {
-          direction = Direction.REAR;
-        }
+        direction = Direction.FORWARD;
       }
-      else if (speed < 0.1f)
+      else if (speed < -0.001)
+      {
+        direction = Direction.REAR;
+      }
+      else
       {
         direction = Direction.NEUTRAL;
       }
+
       foreach (Wheel wheel in wheels)
       {
         WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
 
-        if (Mathf.Abs(im.throttle) < .1f)
+        if (Mathf.Abs(im.throttle) < .1f || direction == Direction.NEUTRAL)
         {
           w.brakeTorque = ZERO;
         }
-        else if (direction == Direction.FORWARD && im.throttle < ZERO)
+        else if (direction == Direction.FORWARD && im.throttle < .1f)
         {
-          w.brakeTorque += -im.throttle;
+          w.brakeTorque += -im.throttle * 10;
         }
-        else if (direction == Direction.REAR && im.throttle > ZERO)
+        else if (direction == Direction.REAR && im.throttle > .1f)
         {
-          w.brakeTorque += im.throttle;
+          w.brakeTorque += im.throttle * 10;
         }
 
         if (w.brakeTorque > maxBrake)
@@ -125,7 +123,7 @@ public class CarController : MonoBehaviour
           w.brakeTorque = maxBrake;
         }
 
-        if (wheel.Transmision)
+        if (wheel.Transmision && direction != Direction.NEUTRAL)
         {
           w.motorTorque = maxTorque * im.throttle;
         }
@@ -187,6 +185,7 @@ public class CarController : MonoBehaviour
 
         col.GetWorldPose(out pos, out rot);
         vis.rotation = rot;
+        vis.position = pos;
       }
     }
   }
@@ -216,5 +215,14 @@ public class CarController : MonoBehaviour
   public Direction getDirection()
   {
     return direction;
+  }
+
+  /// <summary>
+  /// Get car speed
+  /// </summary>
+  /// <returns>float</returns>
+  public float getSpeed()
+  {
+    return speed;
   }
 }
