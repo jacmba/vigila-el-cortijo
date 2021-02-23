@@ -182,5 +182,41 @@ namespace Tests
 
       Assert.IsFalse(smoke.activeSelf, "Smoke should not be active when Gañán got off the car");
     }
+
+    [UnityTest]
+    public IEnumerator CarPlayTestsShouldDisplayBrakingLight()
+    {
+      Transform rootLights = terra.transform.Find("Lights");
+      GameObject lights = rootLights.Find("BrakeLights").gameObject;
+      EventManager.OnCarEnter();
+
+      yield return null;
+
+      im.throttle = 1f;
+
+      yield return new WaitForSeconds(2f);
+
+      im.throttle = -1f;
+
+      yield return new WaitForSeconds(.1f);
+
+      Assert.IsTrue(lights.activeSelf, "Lights should be on while braking");
+
+      im.throttle = 0.00f;
+
+      yield return new WaitForSeconds(.1f);
+
+      Assert.IsFalse(lights.activeSelf, "Lights should be off when stopped braking");
+
+      im.throttle = -1;
+
+      yield return new WaitForSeconds(.1f);
+
+      im.a = true;
+
+      yield return new WaitForSeconds(.1f);
+
+      Assert.IsFalse(lights.activeSelf, "Lights should be off when Gañán leaving the car");
+    }
   }
 }

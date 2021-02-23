@@ -50,6 +50,7 @@ public class CarController : MonoBehaviour
   private Direction direction;
   private float speed;
   private GameObject escape;
+  private GameObject brakeLights;
 
   private static readonly float ZERO = 0.000000000000f;
 
@@ -64,6 +65,8 @@ public class CarController : MonoBehaviour
     body.centerOfMass = cm.transform.localPosition;
     entry = transform.Find("Entry");
     escape = transform.Find("Escape").gameObject;
+    Transform lights = transform.Find("Lights");
+    brakeLights = lights.Find("BrakeLights").gameObject;
     canExit = false;
     parked = true;
     canToggle = true;
@@ -90,6 +93,8 @@ public class CarController : MonoBehaviour
 
     if (!parked)
     {
+      bool braking = false;
+
       if (speed > 0.001)
       {
         direction = Direction.FORWARD;
@@ -103,21 +108,25 @@ public class CarController : MonoBehaviour
         direction = Direction.NEUTRAL;
       }
 
+      if ((direction == Direction.FORWARD && im.throttle < -.1f) ||
+      (direction == Direction.REAR && im.throttle > .1f))
+      {
+        braking = true;
+      }
+
+      brakeLights.SetActive(braking);
+
       foreach (Wheel wheel in wheels)
       {
         WheelCollider w = wheel.Object.GetComponent<WheelCollider>();
 
-        if (Mathf.Abs(im.throttle) < .1f || direction == Direction.NEUTRAL)
+        if (braking)
+        {
+          w.brakeTorque += Mathf.Abs(im.throttle) * 10;
+        }
+        else
         {
           w.brakeTorque = ZERO;
-        }
-        else if (direction == Direction.FORWARD && im.throttle < .1f)
-        {
-          w.brakeTorque += -im.throttle * 10;
-        }
-        else if (direction == Direction.REAR && im.throttle > .1f)
-        {
-          w.brakeTorque += im.throttle * 10;
         }
 
         if (w.brakeTorque > maxBrake)
@@ -145,6 +154,7 @@ public class CarController : MonoBehaviour
         parked = true;
         direction = Direction.NEUTRAL;
         escape.SetActive(false);
+        brakeLights.SetActive(false);
       }
       else if (!im.a)
       {
