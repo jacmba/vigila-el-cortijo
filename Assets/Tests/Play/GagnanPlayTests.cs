@@ -10,28 +10,36 @@ namespace Tests
   public class TestGagnanPlay
   {
     private GameObject gagnan;
+    private GameObject gagnanPref;
+    private GameObject camera;
     private IInputManager im;
     private PlayerController controller;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-      gagnan = GameObject.Instantiate(Resources.Load("Prefabs/Gañan") as GameObject);
-      im = gagnan.AddComponent<MockInput>();
-      controller = gagnan.GetComponent<PlayerController>();
-      controller.im = im;
+      gagnanPref = Resources.Load<GameObject>("Prefabs/Gañan");
     }
 
     [SetUp]
     public void Setup()
     {
-      im.v = 0f;
-      im.h = 0f;
-      im.a = false;
-      im.b = false;
-      im.select = false;
-      im.steer = 0f;
-      im.throttle = 0f;
+      gagnan = GameObject.Instantiate(gagnanPref);
+      im = gagnan.AddComponent<MockInput>();
+      controller = gagnan.GetComponent<PlayerController>();
+      controller.im = im;
+
+      camera = new GameObject();
+      Camera cam = camera.AddComponent<Camera>();
+      CameraController cc = camera.AddComponent<CameraController>();
+      cc.target = gagnan;
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+      GameObject.Destroy(gagnan);
+      GameObject.Destroy(camera);
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
@@ -70,10 +78,13 @@ namespace Tests
 
       yield return new WaitForSeconds(.5f);
 
-      Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsName("vendimia"));
-      Assert.AreEqual(initPos.x, gagnan.transform.position.x);
-      Assert.AreEqual(initPos.z, gagnan.transform.position.z);
-      Assert.IsFalse(animator.GetBool("running"));
+      Vector3 delta = initPos - gagnan.transform.position;
+      delta.y = 0f;
+      float dist = Mathf.Abs(delta.magnitude);
+
+      Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsName("vendimia"), "Current animation state should be 'vendimia'");
+      Assert.Less(dist, 1f, "Position delta should be less than 1");
+      Assert.IsFalse(animator.GetBool("running"), "Animator should not be running");
     }
 
     [UnityTest]
