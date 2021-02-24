@@ -13,6 +13,8 @@ public class EventManager
 
   public static event Action wellOperate;
 
+  public static event Action bucketSpawn;
+
   public static void OnCarEnter()
   {
     carEnter?.Invoke();
@@ -36,5 +38,10 @@ public class EventManager
   public static void OnWellOperate()
   {
     wellOperate?.Invoke();
+  }
+
+  public static void OnBucketSpawn()
+  {
+    bucketSpawn?.Invoke();
   }
 }

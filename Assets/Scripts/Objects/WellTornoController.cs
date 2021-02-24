@@ -49,11 +49,13 @@ public class WellTornoController : MonoBehaviour
   {
     if (bucket.position.y >= initHeight && water.activeSelf)
     {
+      EventManager.OnBucketSpawn();
+      water.SetActive(false);
       return;
     }
     Vector3 eulerRotation = water.activeSelf ? Vector3.left : Vector3.right;
     Vector3 translation = water.activeSelf ? Vector3.up : Vector3.down;
-    transform.Rotate(eulerRotation * 90 * Time.deltaTime, Space.Self);
-    bucket.Translate(translation * .2f * Time.deltaTime);
+    transform.Rotate(eulerRotation * 150 * Time.deltaTime, Space.Self);
+    bucket.Translate(translation * .5f * Time.deltaTime);
   }
 }
