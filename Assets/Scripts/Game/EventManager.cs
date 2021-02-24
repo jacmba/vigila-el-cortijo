@@ -11,6 +11,8 @@ public class EventManager
 
   public static event Action toggleInventory;
 
+  public static event Action wellOperate;
+
   public static void OnCarEnter()
   {
     carEnter?.Invoke();
@@ -29,5 +31,10 @@ public class EventManager
   public static void OnInventoryToggle()
   {
     toggleInventory?.Invoke();
+  }
+
+  public static void OnWellOperate()
+  {
+    wellOperate?.Invoke();
   }
 }
