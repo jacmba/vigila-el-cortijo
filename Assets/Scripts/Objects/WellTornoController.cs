@@ -8,6 +8,8 @@ using UnityEngine;
 public class WellTornoController : MonoBehaviour
 {
   private Transform bucket;
+  private GameObject water;
+  private float initHeight;
 
   /// <summary>
   /// Start is called before the first frame update
@@ -16,6 +18,9 @@ public class WellTornoController : MonoBehaviour
   {
     EventManager.wellOperate += OnWellOperate;
     bucket = transform.parent.parent.Find("Bucket");
+    water = bucket.Find("Water").gameObject;
+
+    initHeight = bucket.position.y;
   }
 
   /// <summary>
@@ -27,11 +32,28 @@ public class WellTornoController : MonoBehaviour
   }
 
   /// <summary>
+  /// Update is called every frame, if the MonoBehaviour is enabled.
+  /// </summary>
+  void Update()
+  {
+    if (bucket.position.y < -.1f)
+    {
+      water.SetActive(true);
+    }
+  }
+
+  /// <summary>
   /// Event triggered when the player is interacting with the well
   /// </summary>
   void OnWellOperate()
   {
-    transform.Rotate(Vector3.right * 90 * Time.deltaTime, Space.Self);
-    bucket.Translate(Vector3.down * .2f * Time.deltaTime);
+    if (bucket.position.y >= initHeight && water.activeSelf)
+    {
+      return;
+    }
+    Vector3 eulerRotation = water.activeSelf ? Vector3.left : Vector3.right;
+    Vector3 translation = water.activeSelf ? Vector3.up : Vector3.down;
+    transform.Rotate(eulerRotation * 90 * Time.deltaTime, Space.Self);
+    bucket.Translate(translation * .2f * Time.deltaTime);
   }
 }

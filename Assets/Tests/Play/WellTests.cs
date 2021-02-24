@@ -94,5 +94,56 @@ namespace Tests
 
       Assert.Less(bucket.position.y, initPos.y, "Bucket height should lower when operating well");
     }
+
+    [UnityTest]
+    public IEnumerator WellTestsInteractionShouldRaiseBucketWhenContainingWater()
+    {
+      Transform bucket = pozo.transform.Find("Bucket");
+      Transform well = pozo.transform.Find("Well");
+      Transform torno = well.Find("Torno");
+      GameObject water = bucket.Find("Water").gameObject;
+
+      Vector3 initPos = bucket.position;
+      Vector3 initRot = torno.rotation.eulerAngles;
+
+      water.SetActive(true);
+
+      EventManager.OnWellOperate();
+
+      yield return new WaitForSeconds(.5f);
+
+      Assert.Greater(bucket.position.y, initPos.y, "Bucket height should be higher");
+    }
+
+    [UnityTest]
+    public IEnumerator WellTestsInteractionShouldActivateWaterWhenBucketDown()
+    {
+      Transform bucket = pozo.transform.Find("Bucket");
+      GameObject water = bucket.Find("Water").gameObject;
+
+      Assert.IsFalse(water.activeSelf, "Water should start inactive");
+
+      bucket.position = new Vector3(0, -2, 0);
+
+      yield return new WaitForSeconds(.5f);
+
+      Assert.IsTrue(water.activeSelf, "Water should be in bucket");
+    }
+
+    [UnityTest]
+    public IEnumerator WellTestsInteractionShouldNotOvershootInitialHeight()
+    {
+      Transform bucket = pozo.transform.Find("Bucket");
+      GameObject water = bucket.Find("Water").gameObject;
+
+      Vector3 initPos = bucket.position;
+      water.SetActive(true);
+
+      EventManager.OnWellOperate();
+
+      yield return new WaitForSeconds(.5f);
+
+      Assert.IsTrue(bucket.position == initPos, "Bucket position should remain the same");
+    }
   }
 }
