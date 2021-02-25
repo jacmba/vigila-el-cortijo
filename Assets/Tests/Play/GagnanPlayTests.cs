@@ -76,7 +76,7 @@ namespace Tests
 
       im.v = 1f;
 
-      yield return new WaitForSeconds(.5f);
+      yield return new WaitForSeconds(.3f);
 
       Vector3 delta = initPos - gagnan.transform.position;
       delta.y = 0f;
