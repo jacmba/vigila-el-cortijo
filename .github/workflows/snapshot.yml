@@ -9,8 +9,17 @@ env:
 
 jobs:
   build:
-    name: Build Cortijo Game
+    name: Build VIGILA EL CORTIJO Snapshot version on ${{ matrix.targetPlatform }} with ${{ matrix.unityVersion }}
     runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 2019.4.14f1
+        targetPlatform:
+          - StandaloneLinux64
+          - StandaloneWindows64
+          - StandaloneOSX
     steps:
       # Checkout
       - uses: actions/checkout@v2
@@ -27,17 +36,17 @@ jobs:
       - name: Run tests
         uses: game-ci/unity-test-runner@v1.3
         with:
-          unityVersion: 2019.4.14f1
+          unityVersion: ${{ matrix.unityVersion }}
 
       # Build
       - name: Build project
         uses: game-ci/unity-builder@v0.10
         with:
-          unityVersion: 2019.4.14f1
-          targetPlatform: StandaloneLinux64
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
 
       # Output
       - uses: actions/upload-artifact@v1
         with:
-          name: Build
-          path: build
+          name: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
