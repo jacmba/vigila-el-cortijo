@@ -104,6 +104,8 @@ namespace Tests
       GameObject water = bucket.Find("Water").gameObject;
 
       Vector3 initPos = bucket.position;
+      initPos.y = -5f;
+      bucket.position = initPos;
       Vector3 initRot = torno.rotation.eulerAngles;
 
       water.SetActive(true);

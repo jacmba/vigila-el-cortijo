@@ -103,7 +103,7 @@ namespace Tests
 
       im.throttle = 1f;
 
-      yield return new WaitForSeconds(1f);
+      yield return new WaitForSeconds(5f);
 
       Assert.GreaterOrEqual(body.velocity.magnitude, 1f, "Car speed should be at least 1");
       Assert.AreEqual(0, anyWheel.brakeTorque, "Brake force should be 0");
