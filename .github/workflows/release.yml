@@ -88,21 +88,3 @@ jobs:
         with:
           name: VigilaElCortijo-${{ needs.get_version.outputs.version }}-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
-
-      # Download artifact
-      - name: Downlaod artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: VigilaElCortijo-${{ needs.get_version.outputs.version }}-${{ matrix.targetPlatform }}
-          path: ./
-
-      # Upload artifact to release
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.url }}
-          asset_path: ${{ matrix.targetPlatform }}
-          asset_name: VigilaElCortijo-${{ needs.get_version.outputs.version }}-${{ matrix.targetPlatform }}
-          asset_content_type: application/zip
