@@ -48,7 +48,7 @@ jobs:
 
       # Publish artifact
       - name: Publish artifact
-      - uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v1
         with:
           name: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
