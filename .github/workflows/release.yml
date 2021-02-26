@@ -8,8 +8,24 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
+  release:
+    name: Build release ${{ github.ref }}
+    runs-on: ubuntu-18.04
+    steps:
+      # Create release
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+
   build:
-    name: Build VIGILA EL CORTIJO Release on ${{ matrix.targetPlatform }} with ${{ matrix.unityVersion }}
+    name: Build ${{ matrix.targetPlatform }} with Unity ${{ matrix.unityVersion }}
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -37,7 +53,7 @@ jobs:
         uses: game-ci/unity-test-runner@v1.3
         with:
           unityVersion: ${{ matrix.unityVersion }}
-          testmode: all
+          testMode: all
 
       # Build
       - name: Build project
@@ -46,21 +62,13 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      # Publish artifact
-      - name: Publish artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: VigilaElCortijo-RELEASE-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-
-      # Create release
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
+      # Upload artifact to release
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: SNAPSHOT
-          release_name: SNAPSHOT
-          draft: false
-          prerelease: false
+          upload_url: ${{ jobs.release.steps.create_release.outputs.upload_url }}
+          asset_path: build/${{ matrix.targetPlatform }}
+          asset_name: VigilaElCortijo-${{ github.ref }}-${{ matrix.targetPlatform }}
+          asset_content_type: application/zip

@@ -9,7 +9,7 @@ env:
 
 jobs:
   build:
-    name: Build VIGILA EL CORTIJO Snapshot on ${{ matrix.targetPlatform }} with ${{ matrix.unityVersion }}
+    name: Build ${{ matrix.targetPlatform }} with Unity ${{ matrix.unityVersion }}
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -37,7 +37,7 @@ jobs:
         uses: game-ci/unity-test-runner@v1.3
         with:
           unityVersion: ${{ matrix.unityVersion }}
-          testmode: editmode
+          testMode: editmode
 
       # Build
       - name: Build project
@@ -52,14 +52,3 @@ jobs:
         with:
           name: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
-
-      # Upload artifact to release
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: https://uploads.github.com/repos/jacmba/vigila-el-cortijo/releases/38792365/assets
-          asset_path: build/${{ matrix.targetPlatform }}
-          asset_name: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
-          asset_content_type: application/zip
