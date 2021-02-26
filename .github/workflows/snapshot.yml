@@ -37,7 +37,7 @@ jobs:
         uses: game-ci/unity-test-runner@v1.3
         with:
           unityVersion: ${{ matrix.unityVersion }}
-          tesmode: editmode
+          testmode: editmode
 
       # Build
       - name: Build project
@@ -46,8 +46,20 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      # Output
+      # Publish artifact
+      - name: Publish artifact
       - uses: actions/upload-artifact@v1
         with:
           name: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+
+      # Create release
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_name: SNAPSHOT
+          draft: false
+          prerelease: false
