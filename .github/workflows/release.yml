@@ -11,6 +11,8 @@ jobs:
   release:
     name: Build release ${{ github.ref }}
     runs-on: ubuntu-18.04
+    outputs:
+      url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       # Create release
       - name: Create release
@@ -27,6 +29,7 @@ jobs:
   build:
     name: Build ${{ matrix.targetPlatform }} with Unity ${{ matrix.unityVersion }}
     runs-on: ubuntu-18.04
+    needs: release
     strategy:
       fail-fast: false
       matrix:
@@ -68,7 +71,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ jobs.release.steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.release.outputs.url }}
           asset_path: build/${{ matrix.targetPlatform }}
           asset_name: VigilaElCortijo-${{ github.ref }}-${{ matrix.targetPlatform }}
           asset_content_type: application/zip
