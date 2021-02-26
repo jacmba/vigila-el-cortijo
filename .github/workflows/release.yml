@@ -20,7 +20,7 @@ jobs:
         uses: bhowell2/github-substring-action@v1.0.0
         with:
           value: ${{ github.ref }}
-          index_of_substr: "refs/heads/release/"
+          index_of_str: "refs/heads/release/"
 
   release:
     name: Build ${{ github.ref }}
