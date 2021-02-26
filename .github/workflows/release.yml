@@ -2,7 +2,7 @@ name: Actions
 
 on:
   pull_request: {}
-  push: { tags: [v*] }
+  push: { branches: [release/*] }
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
