@@ -48,7 +48,28 @@ jobs:
 
       # Publish artifact
       - name: Publish artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+
+  publish:
+    name: Download artifact and publish release
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneLinux64
+          - StandaloneWindows64
+          - StandaloneOSX
+    steps:
+      # Download artifact
+      - name: Download artifact VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
+        uses: actions/download-artifact@v2
+        with:
+          name: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}
+          path: ./
+
+      # Show download tree
+      - run: ls -R
