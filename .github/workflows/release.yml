@@ -29,6 +29,15 @@ jobs:
     outputs:
       url: ${{ steps.create_release.outputs.upload_url }}
     steps:
+      # Create changelog
+      - name: Create changelog
+        id: create_changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          onlyLastTag: true
+          stripHeaders: true
+
       # Create release
       - name: Create release
         id: create_release
@@ -40,6 +49,7 @@ jobs:
           release_name: v${{ needs.get_version.outputs.version }}
           draft: false
           prerelease: false
+          body: ${{ steps.create_changelog.outputs.changelog }}
 
   build:
     name: Build ${{ matrix.targetPlatform }} with Unity ${{ matrix.unityVersion }}
@@ -95,7 +105,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: "https://uploads.github.com/repos/jacmba/vigila-el-cortijo/releases/38792365/assets{?name,label}"
+          upload_url: ${{ needs.release.outputs.url }}
           asset_path: ./VigilaElCortijo-${{ needs.get_version.outputs.version }}-${{ matrix.targetPlatform }}.zip
           asset_name: VigilaElCortijo-${{ needs.get_version.outputs.version }}-${{ matrix.targetPlatform }}.zip
           asset_content_type: application/zip
