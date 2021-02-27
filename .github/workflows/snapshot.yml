@@ -53,9 +53,6 @@ jobs:
           files: build/${{ matrix.targetPlatform }}
           dest: VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}.zip
 
-      # Show dir output
-      - run: ls -lR
-
       # Publish release asset
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
