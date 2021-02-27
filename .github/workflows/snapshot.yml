@@ -56,9 +56,6 @@ jobs:
       # Show dir output
       - run: ls -lR
 
-      # Get timestamp
-      - run: TIMESTAMP=$(date +%s)
-
       # Publish release asset
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
@@ -67,5 +64,5 @@ jobs:
         with:
           upload_url: "https://uploads.github.com/repos/jacmba/vigila-el-cortijo/releases/38792365/assets{?name,label}"
           asset_path: ./VigilaElCortijo-SNAPSHOT-${{ matrix.targetPlatform }}.zip
-          asset_name: VigilaElCortijo-SNAPSHOT_${{ TIMESTAMP }}-${{ matrix.targetPlatform }}.zip
+          asset_name: VigilaElCortijo-SNAPSHOT_${{ GITHUB_SHA }}-${{ matrix.targetPlatform }}.zip
           asset_content_type: application/zip
