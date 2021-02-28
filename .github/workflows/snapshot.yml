@@ -20,7 +20,7 @@ jobs:
           - StandaloneLinux64
           - StandaloneWindows64
           - StandaloneOSX
-          - Android
+          # - Android
     steps:
       # Checkout
       - uses: actions/checkout@v2
