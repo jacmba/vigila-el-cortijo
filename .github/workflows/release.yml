@@ -66,6 +66,7 @@ jobs:
           - StandaloneLinux64
           - StandaloneWindows64
           - StandaloneOSX
+          - Android
     steps:
       # Checkout
       - uses: actions/checkout@v2
@@ -91,6 +92,11 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          androidKeystoreName: ${{ secrets.KEYSTORE_NAME }}
+          androidKeystoreBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          androidKeystorePass: ${{ secrets.KEYSTORE_PASS }}
+          androidKeyaliasName: ${{ secrets.KEYSTORE_ALIASNAME }}
+          androidKeyaliasPass: ${{ secrets.KEYSTORE_ALIASPASS }}
 
       # Zip build folder
       - name: Zip build folder
