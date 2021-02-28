@@ -46,11 +46,11 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          androidKeystoreName: ${{ secrets.KEYSTORE_NAME }}
-          androidKeystoreBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          androidKeystorePass: ${{ secrets.KEYSTORE_PASS }}
-          androidKeyaliasName: ${{ secrets.KEYSTORE_ALIASNAME }}
-          androidKeyaliasPass: ${{ secrets.KEYSTORE_ALIASPASS }}
+          # androidKeystoreName: ${{ secrets.KEYSTORE_NAME }}
+          # androidKeystoreBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          # androidKeystorePass: ${{ secrets.KEYSTORE_PASS }}
+          # androidKeyaliasName: ${{ secrets.KEYSTORE_ALIASNAME }}
+          # androidKeyaliasPass: ${{ secrets.KEYSTORE_ALIASPASS }}
 
       # Zip build folder
       - name: Zip build folder
