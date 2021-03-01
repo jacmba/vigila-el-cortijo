@@ -16,6 +16,12 @@ public class InteractArea : MonoBehaviour
   void Start()
   {
     im = gameController.gameObject.GetComponent<IInputManager>();
+
+    GameObject mobile = gameController.transform.Find("MobileControls").gameObject;
+    if (mobile != null && mobile.activeSelf)
+    {
+      im = mobile.GetComponent<MobileInputManager>();
+    }
   }
 
   /// <summary>

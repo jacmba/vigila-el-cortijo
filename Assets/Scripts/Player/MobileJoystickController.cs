@@ -71,5 +71,7 @@ public class MobileJoystickController : IInputManager, IDragHandler, IPointerDow
   {
     h = (rectTransform.pivot.x - origin.x) / maxDist;
     v = (rectTransform.pivot.y - origin.y) / maxDist;
+    steer = h;
+    throttle = v;
   }
 }
