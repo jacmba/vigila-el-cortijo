@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour
 
   private float timer;
   private GameObject inventoryWindow;
+  private GameObject mobileControls;
   private bool showInventory;
 
   /// <summary>
@@ -46,6 +47,12 @@ public class GameController : MonoBehaviour
     inventoryWindow = transform.Find("InventoryWindow").gameObject;
     InventoryWindowController inventoryWindowController = GetComponent<InventoryWindowController>();
     inventory.slots = inventoryWindowController.slots.Length;
+
+    if (SystemInfo.deviceType == DeviceType.Handheld)
+    {
+      mobileControls = transform.Find("MobileControls").gameObject;
+      mobileControls.SetActive(true);
+    }
 
     showInventory = false;
 
