@@ -1048,6 +1048,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 871691057, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.375
+      objectReference: {fileID: 0}
+    - target: {fileID: 1771511258, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1771511259, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 16.176239
+      objectReference: {fileID: 0}
+    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
+      propertyPath: m_Pivot.x
+      value: -0.18852606
+      objectReference: {fileID: 0}
+    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.719513
+      objectReference: {fileID: 0}
+    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
+      propertyPath: m_Pivot.y
+      value: -0.21889435
+      objectReference: {fileID: 0}
     - target: {fileID: 1581054248789341601, guid: adb11f8130166f136a5c1e828ebfc8ea,
         type: 3}
       propertyPath: player
