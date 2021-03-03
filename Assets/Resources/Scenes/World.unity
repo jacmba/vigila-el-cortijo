@@ -1048,45 +1048,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 871691057, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 2.375
-      objectReference: {fileID: 0}
-    - target: {fileID: 871691057, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -2.8008118
-      objectReference: {fileID: 0}
-    - target: {fileID: 871691060, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: maxDist
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1771511258, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1771511259, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1848382932, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.000061035156
-      objectReference: {fileID: 0}
-    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 16.17627
-      objectReference: {fileID: 0}
-    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_Pivot.x
-      value: -0.18852606
-      objectReference: {fileID: 0}
-    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 2.719513
-      objectReference: {fileID: 0}
-    - target: {fileID: 2077649402, guid: adb11f8130166f136a5c1e828ebfc8ea, type: 3}
-      propertyPath: m_Pivot.y
-      value: -0.21889435
       objectReference: {fileID: 0}
     - target: {fileID: 1581054248789341601, guid: adb11f8130166f136a5c1e828ebfc8ea,
         type: 3}
@@ -1106,7 +1070,7 @@ PrefabInstance:
     - target: {fileID: 1710338594123251651, guid: adb11f8130166f136a5c1e828ebfc8ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1710338594123251653, guid: adb11f8130166f136a5c1e828ebfc8ea,
         type: 3}
