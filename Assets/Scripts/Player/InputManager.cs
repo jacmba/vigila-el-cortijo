@@ -22,5 +22,6 @@ public class InputManager : IInputManager
     b = Input.GetButton("Action2");
 
     select = Input.GetButton("Select");
+    escape = Input.GetButton("Cancel");
   }
 }

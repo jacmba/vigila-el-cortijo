@@ -48,4 +48,10 @@ public abstract class IInputManager : MonoBehaviour
   /// </summary>
   /// <value></value>
   public bool select { get; set; }
+
+  /// <summary>
+  /// Escape button
+  /// </summary>
+  /// <value></value>
+  public bool escape { get; set; }
 }

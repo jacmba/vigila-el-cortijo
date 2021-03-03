@@ -35,7 +35,10 @@ public class GameController : MonoBehaviour
   private float timer;
   private GameObject inventoryWindow;
   private GameObject mobileControls;
+  private GameObject pauseWindow;
+  private IInputManager im;
   private bool showInventory;
+  private bool paused;
 
   /// <summary>
   /// Start is called before the first frame update
@@ -47,6 +50,10 @@ public class GameController : MonoBehaviour
     inventoryWindow = transform.Find("InventoryWindow").gameObject;
     InventoryWindowController inventoryWindowController = GetComponent<InventoryWindowController>();
     inventory.slots = inventoryWindowController.slots.Length;
+
+    pauseWindow = transform.Find("PauseWindow").gameObject;
+
+    im = GetComponent<IInputManager>();
 
     if (SystemInfo.deviceType == DeviceType.Handheld)
     {
@@ -63,6 +70,8 @@ public class GameController : MonoBehaviour
     EventManager.toggleInventory += OnInventoryToggle;
 
     inventory = new InventoryManager();
+
+    paused = false;
   }
 
   /// <summary>
@@ -84,6 +93,11 @@ public class GameController : MonoBehaviour
     if (timer > 0f)
     {
       timer -= Time.deltaTime;
+    }
+
+    if (!paused && im.escape)
+    {
+      pause();
     }
   }
 
@@ -123,5 +137,15 @@ public class GameController : MonoBehaviour
   {
     showInventory = !showInventory;
     inventoryWindow.SetActive(showInventory);
+  }
+
+  /// <summary>
+  /// Pause the game
+  /// </summary>
+  void pause()
+  {
+    Time.timeScale = 0f;
+    pauseWindow.SetActive(true);
+    paused = true;
   }
 }
