@@ -69,6 +69,8 @@ public class GameController : MonoBehaviour
     EventManager.carExit += OnCarExit;
     EventManager.pickItem += OnPickItem;
     EventManager.toggleInventory += OnInventoryToggle;
+    EventManager.resume += unpause;
+    EventManager.exitGame += exitGame;
 
     inventory = new InventoryManager();
 
@@ -85,6 +87,7 @@ public class GameController : MonoBehaviour
     EventManager.carExit -= OnCarExit;
     EventManager.pickItem -= OnPickItem;
     EventManager.toggleInventory -= OnInventoryToggle;
+    EventManager.resume -= unpause;
   }
 
   /// <summary>
@@ -176,11 +179,14 @@ public class GameController : MonoBehaviour
   {
     while (paused)
     {
-      Debug.Log("Cágase la perra");
       yield return null;
       if (im.escape && canTogglePause)
       {
         unpause();
+      }
+      else if (im.a && canTogglePause)
+      {
+        EventManager.OnPauseAPressed();
       }
       else if (!im.escape)
       {
@@ -188,5 +194,14 @@ public class GameController : MonoBehaviour
       }
     }
     yield return null;
+  }
+
+  /// <summary>
+  /// Exits from current game
+  /// </summary>
+  public void exitGame()
+  {
+    // ToDo in the future will have to go back to title screen
+    Application.Quit(0);
   }
 }
