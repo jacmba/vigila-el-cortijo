@@ -35,7 +35,11 @@ public class GameController : MonoBehaviour
   private float timer;
   private GameObject inventoryWindow;
   private GameObject mobileControls;
+  private GameObject pauseWindow;
+  private IInputManager im;
   private bool showInventory;
+  public bool paused { get; private set; }
+  private bool canTogglePause;
 
   /// <summary>
   /// Start is called before the first frame update
@@ -47,6 +51,10 @@ public class GameController : MonoBehaviour
     inventoryWindow = transform.Find("InventoryWindow").gameObject;
     InventoryWindowController inventoryWindowController = GetComponent<InventoryWindowController>();
     inventory.slots = inventoryWindowController.slots.Length;
+
+    pauseWindow = transform.Find("PauseWindow").gameObject;
+
+    im = GetComponent<IInputManager>();
 
     if (SystemInfo.deviceType == DeviceType.Handheld)
     {
@@ -61,8 +69,13 @@ public class GameController : MonoBehaviour
     EventManager.carExit += OnCarExit;
     EventManager.pickItem += OnPickItem;
     EventManager.toggleInventory += OnInventoryToggle;
+    EventManager.resume += unpause;
+    EventManager.exitGame += exitGame;
 
     inventory = new InventoryManager();
+
+    paused = false;
+    canTogglePause = true;
   }
 
   /// <summary>
@@ -74,6 +87,7 @@ public class GameController : MonoBehaviour
     EventManager.carExit -= OnCarExit;
     EventManager.pickItem -= OnPickItem;
     EventManager.toggleInventory -= OnInventoryToggle;
+    EventManager.resume -= unpause;
   }
 
   /// <summary>
@@ -84,6 +98,15 @@ public class GameController : MonoBehaviour
     if (timer > 0f)
     {
       timer -= Time.deltaTime;
+    }
+
+    if (!paused && im.escape && canTogglePause)
+    {
+      pause();
+    }
+    else if (!im.escape)
+    {
+      canTogglePause = true;
     }
   }
 
@@ -123,5 +146,62 @@ public class GameController : MonoBehaviour
   {
     showInventory = !showInventory;
     inventoryWindow.SetActive(showInventory);
+  }
+
+  /// <summary>
+  /// Pause the game
+  /// </summary>
+  void pause()
+  {
+    Time.timeScale = 0f;
+    pauseWindow.SetActive(true);
+    paused = true;
+    canTogglePause = false;
+    StartCoroutine(pauseLoop());
+  }
+
+  /// <summary>
+  /// Resume game after pause
+  /// </summary>
+  void unpause()
+  {
+    Time.timeScale = 1f;
+    pauseWindow.SetActive(false);
+    paused = false;
+    canTogglePause = false;
+  }
+
+  /// <summary>
+  /// Check input while game is paused
+  /// </summary>
+  /// <returns></returns>
+  public IEnumerator pauseLoop()
+  {
+    while (paused)
+    {
+      yield return null;
+      if (im.escape && canTogglePause)
+      {
+        unpause();
+      }
+      else if (im.a && canTogglePause)
+      {
+        EventManager.OnPauseAPressed();
+      }
+      else if (!im.escape)
+      {
+        canTogglePause = true;
+      }
+    }
+    yield return null;
+  }
+
+  /// <summary>
+  /// Exits from current game
+  /// </summary>
+  public void exitGame()
+  {
+    // ToDo in the future will have to go back to title screen
+    Application.Quit(0);
   }
 }
