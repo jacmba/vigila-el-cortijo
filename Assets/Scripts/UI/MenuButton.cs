@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// Behavior of UI menu butytons
 /// </summary>
-public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
+  ISelectHandler, IDeselectHandler
 {
   [SerializeField]
   private MenuButtonType type;
@@ -26,22 +27,28 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     overSize = size * 1.5f;
     clickSize = size * 2f;
     button = GetComponent<Button>();
-  }
-
-  /// <summary>
-  /// This function is called when the object becomes enabled and active.
-  /// </summary>
-  void OnEnable()
-  {
-    button.Select();
+    if (type == MenuButtonType.RESUME)
+    {
+      button.Select();
+    }
   }
 
   public void OnPointerEnter(PointerEventData data)
   {
-    transform.localScale = overSize;
+    button.Select();
   }
 
   public void OnPointerExit(PointerEventData data)
+  {
+    OnDeselect(data as BaseEventData);
+  }
+
+  public void OnSelect(BaseEventData data)
+  {
+    transform.localScale = overSize;
+  }
+
+  public void OnDeselect(BaseEventData data)
   {
     transform.localScale = size;
   }

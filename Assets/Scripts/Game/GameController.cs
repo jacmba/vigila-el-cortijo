@@ -38,7 +38,8 @@ public class GameController : MonoBehaviour
   private GameObject pauseWindow;
   private IInputManager im;
   private bool showInventory;
-  private bool paused;
+  public bool paused { get; private set; }
+  private bool canTogglePause;
 
   /// <summary>
   /// Start is called before the first frame update
@@ -72,6 +73,7 @@ public class GameController : MonoBehaviour
     inventory = new InventoryManager();
 
     paused = false;
+    canTogglePause = true;
   }
 
   /// <summary>
@@ -95,9 +97,13 @@ public class GameController : MonoBehaviour
       timer -= Time.deltaTime;
     }
 
-    if (!paused && im.escape)
+    if (!paused && im.escape && canTogglePause)
     {
       pause();
+    }
+    else if (!im.escape)
+    {
+      canTogglePause = true;
     }
   }
 
@@ -147,5 +153,40 @@ public class GameController : MonoBehaviour
     Time.timeScale = 0f;
     pauseWindow.SetActive(true);
     paused = true;
+    canTogglePause = false;
+    StartCoroutine(pauseLoop());
+  }
+
+  /// <summary>
+  /// Resume game after pause
+  /// </summary>
+  void unpause()
+  {
+    Time.timeScale = 1f;
+    pauseWindow.SetActive(false);
+    paused = false;
+    canTogglePause = false;
+  }
+
+  /// <summary>
+  /// Check input while game is paused
+  /// </summary>
+  /// <returns></returns>
+  public IEnumerator pauseLoop()
+  {
+    while (paused)
+    {
+      Debug.Log("Cágase la perra");
+      yield return null;
+      if (im.escape && canTogglePause)
+      {
+        unpause();
+      }
+      else if (!im.escape)
+      {
+        canTogglePause = true;
+      }
+    }
+    yield return null;
   }
 }
