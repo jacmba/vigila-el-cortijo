@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
   private Animator animator;
   private CameraHook camHook;
   private ItemCollecter collecter;
+  private EventManager eventManager;
   private bool canToggleInv;
   private bool rotating;
 
@@ -26,7 +27,8 @@ public class PlayerController : MonoBehaviour
     camHook = GetComponentInChildren<CameraHook>();
     collecter = GetComponent<ItemCollecter>();
 
-    EventManager.carEnter += OnCarEnter;
+    eventManager = EventManager.getInstance();
+    eventManager.carEnter += OnCarEnter;
 
     canToggleInv = true;
   }
@@ -36,7 +38,7 @@ public class PlayerController : MonoBehaviour
   /// </summary>
   void OnDestroy()
   {
-    EventManager.carEnter -= OnCarEnter;
+    eventManager.carEnter -= OnCarEnter;
   }
 
   /// <summary>
@@ -92,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
     if (canToggleInv && im.select)
     {
-      EventManager.OnInventoryToggle();
+      eventManager.OnInventoryToggle();
       canToggleInv = false;
     }
     else if (!im.select)

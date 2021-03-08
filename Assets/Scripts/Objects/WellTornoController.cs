@@ -10,13 +10,15 @@ public class WellTornoController : MonoBehaviour
   private Transform bucket;
   private GameObject water;
   private float initHeight;
+  private EventManager eventManager;
 
   /// <summary>
   /// Start is called before the first frame update
   /// </summary>
   void Start()
   {
-    EventManager.wellOperate += OnWellOperate;
+    eventManager = EventManager.getInstance();
+    eventManager.wellOperate += OnWellOperate;
     bucket = transform.parent.parent.Find("Bucket");
     water = bucket.Find("Water").gameObject;
 
@@ -28,7 +30,7 @@ public class WellTornoController : MonoBehaviour
   /// </summary>
   void OnDestroy()
   {
-    EventManager.wellOperate -= OnWellOperate;
+    eventManager.wellOperate -= OnWellOperate;
   }
 
   /// <summary>
@@ -49,7 +51,7 @@ public class WellTornoController : MonoBehaviour
   {
     if (bucket.position.y >= initHeight && water.activeSelf)
     {
-      EventManager.OnBucketSpawn();
+      eventManager.OnBucketSpawn();
       water.SetActive(false);
       return;
     }

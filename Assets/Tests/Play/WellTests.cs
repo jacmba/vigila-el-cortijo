@@ -13,6 +13,7 @@ namespace Tests
     private GameObject gc;
     private GameObject gcPref;
     private MockInput im;
+    private EventManager eventManager;
 
     [OneTimeSetUp]
     public void OneTimeSetup()
@@ -23,6 +24,8 @@ namespace Tests
       GameObject camera = new GameObject();
       camera.AddComponent<Camera>();
       camera.transform.Translate(Vector3.back * 10 + Vector3.up * 3);
+
+      eventManager = EventManager.getInstance();
     }
 
     [SetUp]
@@ -75,7 +78,7 @@ namespace Tests
       Transform torno = well.Find("Torno");
       Vector3 initRot = torno.transform.rotation.eulerAngles;
 
-      EventManager.OnWellOperate();
+      eventManager.OnWellOperate();
 
       yield return new WaitForSeconds(.5f);
 
@@ -88,7 +91,7 @@ namespace Tests
       Transform bucket = pozo.transform.Find("Bucket");
       Vector3 initPos = bucket.position;
 
-      EventManager.OnWellOperate();
+      eventManager.OnWellOperate();
 
       yield return new WaitForSeconds(.5f);
 
@@ -110,7 +113,7 @@ namespace Tests
 
       water.SetActive(true);
 
-      EventManager.OnWellOperate();
+      eventManager.OnWellOperate();
 
       yield return new WaitForSeconds(.5f);
 
@@ -141,7 +144,7 @@ namespace Tests
       Vector3 initPos = bucket.position;
       water.SetActive(true);
 
-      EventManager.OnWellOperate();
+      eventManager.OnWellOperate();
 
       yield return new WaitForSeconds(.5f);
 

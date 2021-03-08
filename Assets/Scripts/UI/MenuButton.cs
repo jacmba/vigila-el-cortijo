@@ -17,6 +17,7 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
   private Vector3 clickSize;
   private Button button;
   private bool selected;
+  private EventManager eventManager;
 
   /// <summary>
   /// Start is called on the frame when a script is enabled just before
@@ -33,7 +34,8 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       button.Select();
     }
 
-    EventManager.pauseAPressed += OnPauseAPressed;
+    eventManager = EventManager.getInstance();
+    eventManager.pauseAPressed += OnPauseAPressed;
   }
 
   /// <summary>
@@ -41,7 +43,7 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
   /// </summary>
   void OnDestroy()
   {
-    EventManager.pauseAPressed -= OnPauseAPressed;
+    eventManager.pauseAPressed -= OnPauseAPressed;
   }
 
   /// <summary>
@@ -102,10 +104,10 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     switch (type)
     {
       case MenuButtonType.RESUME:
-        EventManager.OnResume();
+        eventManager.OnResume();
         break;
       case MenuButtonType.EXIT:
-        EventManager.OnExitGame();
+        eventManager.OnExitGame();
         break;
       default:
         Debug.Log("Unknown button pressed");

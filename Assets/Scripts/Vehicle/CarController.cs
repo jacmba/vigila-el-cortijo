@@ -52,6 +52,8 @@ public class CarController : MonoBehaviour
   private GameObject escape;
   private GameObject brakeLights;
 
+  private EventManager eventManager;
+
   private static readonly float ZERO = 0.000000000000f;
 
   private bool canToggle;
@@ -72,7 +74,8 @@ public class CarController : MonoBehaviour
     canToggle = true;
     direction = Direction.NEUTRAL;
 
-    EventManager.carEnter += OnCarEnter;
+    eventManager = EventManager.getInstance();
+    eventManager.carEnter += OnCarEnter;
   }
 
   /// <summary>
@@ -80,7 +83,7 @@ public class CarController : MonoBehaviour
   /// </summary>
   void OnDestroy()
   {
-    EventManager.carEnter -= OnCarEnter;
+    eventManager.carEnter -= OnCarEnter;
   }
 
   /// <summary>
@@ -148,7 +151,7 @@ public class CarController : MonoBehaviour
       if (im.a && canExit)
       {
         body.velocity = Vector3.zero;
-        EventManager.OnCarExit(entry);
+        eventManager.OnCarExit(entry);
         StartCoroutine(deferEnable());
         canExit = false;
         parked = true;
@@ -163,7 +166,7 @@ public class CarController : MonoBehaviour
 
       if (im.select && canToggle)
       {
-        EventManager.OnInventoryToggle();
+        eventManager.OnInventoryToggle();
         canToggle = false;
       }
       else if (!im.select)

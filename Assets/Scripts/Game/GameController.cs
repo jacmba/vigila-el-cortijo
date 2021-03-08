@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
   private GameObject mobileControls;
   private GameObject pauseWindow;
   private IInputManager im;
+  private EventManager eventManager;
   private bool showInventory;
   public bool paused { get; private set; }
   private bool canTogglePause;
@@ -65,12 +66,13 @@ public class GameController : MonoBehaviour
     showInventory = false;
 
     // Setup event observers
-    EventManager.carEnter += OnCarEnter;
-    EventManager.carExit += OnCarExit;
-    EventManager.pickItem += OnPickItem;
-    EventManager.toggleInventory += OnInventoryToggle;
-    EventManager.resume += unpause;
-    EventManager.exitGame += exitGame;
+    eventManager = EventManager.getInstance();
+    eventManager.carEnter += OnCarEnter;
+    eventManager.carExit += OnCarExit;
+    eventManager.pickItem += OnPickItem;
+    eventManager.toggleInventory += OnInventoryToggle;
+    eventManager.resume += unpause;
+    eventManager.exitGame += exitGame;
 
     inventory = new InventoryManager();
 
@@ -83,11 +85,11 @@ public class GameController : MonoBehaviour
   /// </summary>
   void OnDestroy()
   {
-    EventManager.carEnter -= OnCarEnter;
-    EventManager.carExit -= OnCarExit;
-    EventManager.pickItem -= OnPickItem;
-    EventManager.toggleInventory -= OnInventoryToggle;
-    EventManager.resume -= unpause;
+    eventManager.carEnter -= OnCarEnter;
+    eventManager.carExit -= OnCarExit;
+    eventManager.pickItem -= OnPickItem;
+    eventManager.toggleInventory -= OnInventoryToggle;
+    eventManager.resume -= unpause;
   }
 
   /// <summary>
@@ -186,7 +188,7 @@ public class GameController : MonoBehaviour
       }
       else if (im.a && canTogglePause)
       {
-        EventManager.OnPauseAPressed();
+        eventManager.OnPauseAPressed();
       }
       else if (!im.escape)
       {

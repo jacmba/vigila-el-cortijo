@@ -9,6 +9,7 @@ public class BucketSpawner : MonoBehaviour
 {
   public GameObject bucketPrefab;
   private GameObject bucket;
+  private EventManager eventManager;
 
   /// <summary>
   /// Start is called before the first frame update
@@ -16,7 +17,8 @@ public class BucketSpawner : MonoBehaviour
   void Start()
   {
     bucket = null;
-    EventManager.bucketSpawn += OnBucketSpawn;
+    eventManager = EventManager.getInstance();
+    eventManager.bucketSpawn += OnBucketSpawn;
   }
 
   /// <summary>
@@ -24,7 +26,7 @@ public class BucketSpawner : MonoBehaviour
   /// </summary>
   void OnDestroy()
   {
-    EventManager.bucketSpawn -= OnBucketSpawn;
+    eventManager.bucketSpawn -= OnBucketSpawn;
   }
 
   /// <summary>

@@ -6,8 +6,20 @@ public class ItemController : MonoBehaviour
 {
 
   public InventoryItem item;
+  private EventManager eventManager;
 
-  // Update is called once per frame
+  /// <summary>
+  /// Start is called on the frame when a script is enabled just before
+  /// any of the Update methods is called the first time.
+  /// </summary>
+  void Start()
+  {
+    eventManager = EventManager.getInstance();
+  }
+
+  /// <summary>
+  /// Update is called once per frame
+  /// </summary>
   void Update()
   {
     transform.Rotate(0, 1, 0);
@@ -24,7 +36,7 @@ public class ItemController : MonoBehaviour
       ItemCollecter collecter = other.gameObject.GetComponent<ItemCollecter>();
       if (collecter.IsCollecting())
       {
-        EventManager.OnPickItem(item);
+        eventManager.OnPickItem(item);
         Destroy(gameObject);
       }
     }

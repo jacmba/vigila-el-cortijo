@@ -7,54 +7,77 @@ using UnityEngine;
 public class EventManager
 {
   /// <summary>
+  /// Singleton instance
+  /// </summary>
+  private static EventManager instance = null;
+
+  /// <summary>
+  /// Private constructor to force singleton usage
+  /// </summary>
+  private EventManager() { }
+
+  /// <summary>
+  /// Get singleton instance
+  /// </summary>
+  /// <returns>EventManager singleton instance</returns>
+  public static EventManager getInstance()
+  {
+    if (instance == null)
+    {
+      instance = new EventManager();
+    }
+    return instance;
+  }
+
+  /// <summary>
   /// Subscribe to OnCarenter event
   /// </summary>
-  public static event Action carEnter;
+  public event Action carEnter;
 
   /// <summary>
   /// Subscribe to OnCarExit event
   /// </summary>
-  public static event Action<Transform> carExit;
+  public event Action<Transform> carExit;
 
   /// <summary>
   /// Subscribe to OnPickItem event
   /// </summary>
-  public static event Action<InventoryItem> pickItem;
+  public event Action<InventoryItem> pickItem;
 
   /// <summary>
   /// Subscribe to OnToggleInventory event
   /// </summary>
-  public static event Action toggleInventory;
+  public event Action toggleInventory;
 
   /// <summary>
   /// Subscribe to OnWellOperate event
   /// </summary>
-  public static event Action wellOperate;
+  public event Action wellOperate;
 
   /// <summary>
   /// Subscribe to OnBucketSpawn event
   /// </summary>
-  public static event Action bucketSpawn;
+  public event Action bucketSpawn;
 
   /// <summary>
   /// Subscribe to OnPauseAPressed
   /// </summary>
-  public static event Action pauseAPressed;
+  public event Action pauseAPressed;
 
   /// <summary>
   /// Subscribe to OnResume event
   /// </summary>
-  public static event Action resume;
+  public event Action resume;
 
   /// <summary>
   /// Subscribe to OnExitGame event
   /// </summary>
-  public static event Action exitGame;
+  public event Action exitGame;
 
   /// <summary>
   /// Event triggered when the Gañán jumps into the car
   /// </summary>
-  public static void OnCarEnter()
+  public void OnCarEnter()
   {
     carEnter?.Invoke();
   }
@@ -63,7 +86,7 @@ public class EventManager
   /// Event triggered when the Gañán exits the car
   /// </summary>
   /// <param name="t">Exit position transform</param>
-  public static void OnCarExit(Transform t)
+  public void OnCarExit(Transform t)
   {
     carExit?.Invoke(t);
   }
@@ -72,7 +95,7 @@ public class EventManager
   /// Event trigered when the Gañán picks an item
   /// </summary>
   /// <param name="item">Inventory item object</param>
-  public static void OnPickItem(InventoryItem item)
+  public void OnPickItem(InventoryItem item)
   {
     pickItem?.Invoke(item);
   }
@@ -80,7 +103,7 @@ public class EventManager
   /// <summary>
   /// Event trigered when select button is pressed to toggle inventory display
   /// </summary>
-  public static void OnInventoryToggle()
+  public void OnInventoryToggle()
   {
     toggleInventory?.Invoke();
   }
@@ -88,7 +111,7 @@ public class EventManager
   /// <summary>
   /// Event triggerd when the Gañán is interacting with the well
   /// </summary>
-  public static void OnWellOperate()
+  public void OnWellOperate()
   {
     wellOperate?.Invoke();
   }
@@ -96,7 +119,7 @@ public class EventManager
   /// <summary>
   /// Event triggered when water bucket is spawned after operating the well
   /// </summary>
-  public static void OnBucketSpawn()
+  public void OnBucketSpawn()
   {
     bucketSpawn?.Invoke();
   }
@@ -104,7 +127,7 @@ public class EventManager
   /// <summary>
   /// Event triggered when A button is pressed during pause
   /// </summary>
-  public static void OnPauseAPressed()
+  public void OnPauseAPressed()
   {
     pauseAPressed?.Invoke();
   }
@@ -112,7 +135,7 @@ public class EventManager
   /// <summary>
   /// Event triggered when pause exit requested
   /// </summary>
-  public static void OnResume()
+  public void OnResume()
   {
     resume?.Invoke();
   }
@@ -120,7 +143,7 @@ public class EventManager
   /// <summary>
   /// Event triggered when requesting exit the game
   /// </summary>
-  public static void OnExitGame()
+  public void OnExitGame()
   {
     exitGame?.Invoke();
   }

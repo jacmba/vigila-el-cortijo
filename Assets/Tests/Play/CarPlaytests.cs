@@ -16,6 +16,8 @@ namespace Tests
     private Vector3 initPos;
     private Quaternion initRot;
 
+    private EventManager eventManager;
+
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
@@ -52,6 +54,8 @@ namespace Tests
 
       GameObject cortiPref = Resources.Load<GameObject>("Prefabs/cortijo");
       GameObject cortijo = GameObject.Instantiate(cortiPref);
+
+      eventManager = EventManager.getInstance();
     }
 
     [SetUp]
@@ -97,7 +101,7 @@ namespace Tests
     public IEnumerator CarPlayTestsShouldMoveWhenCharacterEnters()
     {
       WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
-      EventManager.OnCarEnter();
+      eventManager.OnCarEnter();
 
       yield return null;
 
@@ -117,7 +121,7 @@ namespace Tests
     public IEnumerator CarPlayTestsShouldApplyBrakeForceWhenApplyOppsoiteThrottle()
     {
       WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
-      EventManager.OnCarEnter();
+      eventManager.OnCarEnter();
 
       yield return null;
 
@@ -146,7 +150,7 @@ namespace Tests
     public IEnumerator CarPlayTestsShouldContinueMovingForwardAfterCrashStop()
     {
       WheelCollider anyWheel = terra.GetComponentInChildren<WheelCollider>();
-      EventManager.OnCarEnter();
+      eventManager.OnCarEnter();
 
       yield return null;
 
@@ -170,7 +174,7 @@ namespace Tests
     public IEnumerator CarPlayTestsShouldThrowSmokeWhenRunning()
     {
       GameObject smoke = terra.transform.Find("Escape").gameObject;
-      EventManager.OnCarEnter();
+      eventManager.OnCarEnter();
 
       yield return new WaitForSeconds(.1f);
 
@@ -188,7 +192,7 @@ namespace Tests
     {
       Transform rootLights = terra.transform.Find("Lights");
       GameObject lights = rootLights.Find("BrakeLights").gameObject;
-      EventManager.OnCarEnter();
+      eventManager.OnCarEnter();
 
       yield return null;
 

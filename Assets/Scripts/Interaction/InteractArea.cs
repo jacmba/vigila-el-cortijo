@@ -8,6 +8,7 @@ public class InteractArea : MonoBehaviour
   public AreaAction action;
 
   private IInputManager im;
+  private EventManager eventManager;
 
   /// <summary>
   /// Start is called on the frame when a script is enabled just before
@@ -22,6 +23,8 @@ public class InteractArea : MonoBehaviour
     {
       im = mobile.GetComponent<MobileInputManager>();
     }
+
+    eventManager = EventManager.getInstance();
   }
 
   /// <summary>
@@ -35,11 +38,11 @@ public class InteractArea : MonoBehaviour
       switch (action)
       {
         case AreaAction.CAR_ENTER:
-          EventManager.OnCarEnter();
+          eventManager.OnCarEnter();
           gameObject.SetActive(false);
           break;
         case AreaAction.WELL_OPERATE:
-          EventManager.OnWellOperate();
+          eventManager.OnWellOperate();
           break;
         default:
           break;
