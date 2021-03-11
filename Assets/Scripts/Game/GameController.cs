@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
   /// <summary>
   /// Inventory reference
   /// </summary>
-  public InventoryManager inventory;
+  private InventoryManager inventory;
 
   private float timer;
   private GameObject inventoryWindow;
@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour
     eventManager.resume += unpause;
     eventManager.exitGame += exitGame;
 
-    inventory = new InventoryManager();
+    inventory = InventoryManager.getInstance();
 
     paused = false;
     canTogglePause = true;

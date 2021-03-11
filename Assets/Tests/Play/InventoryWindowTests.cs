@@ -13,6 +13,8 @@ namespace Tests
     private GameController gameController;
     private InventoryWindowController inventoryWindowController;
 
+    private InventoryManager inventory;
+
     [SetUp]
     public void Setup()
     {
@@ -20,7 +22,8 @@ namespace Tests
       gameController = controller.GetComponent<GameController>();
       inventoryWindowController = controller.GetComponent<InventoryWindowController>();
 
-      gameController.inventory.slots = 1;
+      inventory = InventoryManager.getInstance();
+      inventory.slots = 1;
     }
 
     [UnityTest]
@@ -30,7 +33,7 @@ namespace Tests
       Assert.IsNotNull(controller);
       Assert.IsNotNull(gameController);
       Assert.IsNotNull(inventoryWindowController);
-      Assert.AreEqual(inventoryWindowController.slots.Length, gameController.inventory.slots);
+      Assert.AreEqual(inventoryWindowController.slots.Length, inventory.slots);
     }
 
     [UnityTest]
@@ -42,7 +45,7 @@ namespace Tests
       item.pickAmount = 1;
       item.icon = Resources.Load<Sprite>("Sprites/cepa");
 
-      gameController.inventory.insert(item);
+      inventory.insert(item);
 
       yield return null;
 

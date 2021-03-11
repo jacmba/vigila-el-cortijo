@@ -8,11 +8,17 @@ namespace Tests
 {
   public class InventoryTests
   {
+    [TearDown]
+    public void TearDown()
+    {
+      InventoryManager.reset();
+    }
+
     // A Test behaves as an ordinary method
     [Test]
     public void InventoryTestsCheckObjectBuild()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       Assert.IsNotNull(mgr);
       Assert.AreEqual(mgr.slots, 10);
     }
@@ -49,7 +55,7 @@ namespace Tests
     [Test]
     public void InventoryTestsCheckAvailableSlots()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       mgr.slots = 3;
       int avail = mgr.getAvailSlots();
       Assert.AreEqual(3, avail);
@@ -58,7 +64,7 @@ namespace Tests
     [Test]
     public void InventoryTestsCheckSlotInsert()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       InventoryItem i = new InventoryItem();
       i.type = ItemType.CEPA;
       i.pickAmount = 5;
@@ -73,7 +79,7 @@ namespace Tests
     [Test]
     public void InventoryTestsCheckNonExistingItemShouldHaveZero()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       int waters = mgr.count(ItemType.WATER);
       Assert.AreEqual(0, waters);
     }
@@ -81,7 +87,7 @@ namespace Tests
     [Test]
     public void InventoryTestsCheckUseItem()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       mgr.slots = 2;
 
       InventoryItem ci = new InventoryItem();
@@ -113,7 +119,7 @@ namespace Tests
     [Test]
     public void InventoryTestInsertExistingShouldSum()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       InventoryItem item = new InventoryItem();
       item.maxAmount = 100;
       item.pickAmount = 1;
@@ -129,7 +135,7 @@ namespace Tests
     [Test]
     public void InventoryTestShouldNotAddNegativeValues()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       InventoryItem item = new InventoryItem();
       item.maxAmount = 100;
       item.pickAmount = -10;
@@ -142,7 +148,7 @@ namespace Tests
     [Test]
     public void InventoryTestShoudNotUseNegativeAmounts()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       InventoryItem item = new InventoryItem();
       item.maxAmount = 100;
       item.pickAmount = 10;
@@ -157,7 +163,7 @@ namespace Tests
     [Test]
     public void InventoryTestsGet()
     {
-      InventoryManager mgr = new InventoryManager();
+      InventoryManager mgr = InventoryManager.getInstance();
       InventoryItem item = new InventoryItem();
       item.maxAmount = 200;
       item.pickAmount = 3;

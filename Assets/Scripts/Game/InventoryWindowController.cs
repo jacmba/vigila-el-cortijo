@@ -12,7 +12,7 @@ public class InventoryWindowController : MonoBehaviour
   /// </summary>
   public ItemSlotController[] slots;
 
-  private GameController gc;
+  private InventoryManager inventory;
 
   /// <summary>
   /// Start is called on the frame when a script is enabled just before
@@ -20,7 +20,7 @@ public class InventoryWindowController : MonoBehaviour
   /// </summary>
   void Start()
   {
-    gc = GetComponent<GameController>();
+    inventory = InventoryManager.getInstance();
   }
 
   /// <summary>
@@ -30,7 +30,7 @@ public class InventoryWindowController : MonoBehaviour
   {
     for (int i = 0; i < slots.Length; i++)
     {
-      slots[i].item = gc.inventory.get(i);
+      slots[i].item = inventory.get(i);
     }
   }
 }

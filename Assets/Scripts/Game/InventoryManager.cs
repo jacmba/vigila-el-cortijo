@@ -15,6 +15,37 @@ public class InventoryManager
   private Dictionary<ItemType, InventoryItem> itemMap = new Dictionary<ItemType, InventoryItem>();
 
   /// <summary>
+  /// Singleton instance
+  /// </summary>
+  private static InventoryManager instance;
+
+  /// <summary>
+  /// Private constructor to force singleton pattern
+  /// </summary>
+  private InventoryManager() { }
+
+  /// <summary>
+  /// Get singleton instance
+  /// </summary>
+  /// <returns>InventoryManager singleton instance</returns>
+  public static InventoryManager getInstance()
+  {
+    if (instance == null)
+    {
+      instance = new InventoryManager();
+    }
+    return instance;
+  }
+
+  /// <summary>
+  /// Clear singleton instance
+  /// </summary>
+  public static void reset()
+  {
+    instance = null;
+  }
+
+  /// <summary>
   /// Get number of available slots
   /// </summary>
   /// <returns>Integer</returns>
