@@ -49,6 +49,8 @@ public class GameController : MonoBehaviour
   {
     timer = 0f;
 
+    inventory = InventoryManager.getInstance();
+
     inventoryWindow = transform.Find("InventoryWindow").gameObject;
     InventoryWindowController inventoryWindowController = GetComponent<InventoryWindowController>();
     inventory.slots = inventoryWindowController.slots.Length;
@@ -73,8 +75,6 @@ public class GameController : MonoBehaviour
     eventManager.toggleInventory += OnInventoryToggle;
     eventManager.resume += unpause;
     eventManager.exitGame += exitGame;
-
-    inventory = InventoryManager.getInstance();
 
     paused = false;
     canTogglePause = true;
